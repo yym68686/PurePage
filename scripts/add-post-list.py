@@ -36,4 +36,4 @@ md_content = md_content[:index + len(title) - 4] + new_content + "\n" + md_conte
 with open("index.md", "w") as f:
     f.write(md_content)
 
-os.system("cd /Users/yanyuming/Downloads/GitHub/blog && git add . && git commit -m '$(date)' && git push origin $(git name-rev --name-only HEAD)")
+os.system('cd /Users/yanyuming/Downloads/GitHub/blog && git add . && git commit -m "$(date)" && git push origin $(git name-rev --name-only HEAD)')
