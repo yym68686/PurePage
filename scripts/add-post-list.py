@@ -33,6 +33,7 @@ for mdpath in md_files_path:
     title = gettitle(post_content)
     new_content += f"- [{title}]({mdpath})\n"
 md_content = md_content[:index + len(title) - 4] + new_content + md_content[index + len(title) - 4:]
-# print(md_content)
 with open("index.md", "w") as f:
     f.write(md_content)
+
+# os.system("cd /Users/yanyuming/Downloads/GitHub/blog && git add . && git commit -m '$(date)' && git push origin $(git name-rev --name-only HEAD)")
