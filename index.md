@@ -10,6 +10,6 @@
 
 📮 Email: yym68686@outlook.com
 
-## 近期文章
+## 文章列表
 
-- [ReID综述论文分享](./post/reid-outlook-paper-share/index.md)
+## 关于我
