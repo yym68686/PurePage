@@ -12,6 +12,7 @@
 
 ## 文章列表
 
+- [一个极简主义者的博客页面](./post/develop-purepage/index.md)
 - [Re-ID 综述论文分享](./post/reid-outlook-paper-share/index.md)
 
 ## 关于我
