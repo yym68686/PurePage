@@ -32,7 +32,7 @@ for mdpath in md_files_path:
         post_content = f.read()
     title = gettitle(post_content)
     new_content += f"- [{title}]({mdpath})\n"
-md_content = md_content[:index + len(title) - 4] + new_content + md_content[index + len(title) - 4:]
+md_content = md_content[:index + len(title) - 4] + new_content + "\n" + md_content[index + len(title) - 4:]
 with open("index.md", "w") as f:
     f.write(md_content)
 
