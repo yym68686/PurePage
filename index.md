@@ -12,4 +12,4 @@
 
 ## 近期文章
 
-- [ReID综述论文分享](./post/ReID综述论文分享/index.md)
+- [ReID综述论文分享](./post/reid-outlook-paper-share/index.md)
