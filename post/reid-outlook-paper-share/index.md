@@ -150,4 +150,4 @@ https://zhuanlan.zhihu.com/p/90429483
 
 专栏：https://zhuanlan.zhihu.com/personReid
 
-[TPAMI2021|深度学习行人重识别综述与展望](https://zhuanlan.zhihu.com/p/342249413)
+[TPAMI2021 深度学习行人重识别综述与展望](https://zhuanlan.zhihu.com/p/342249413)
