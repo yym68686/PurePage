@@ -17,4 +17,4 @@
 
 ## 关于我
 
-code is law.
+📖 Code is law.
