@@ -6,7 +6,17 @@
 
 - [x] 自动在首页生成文章列表
 - [x] 文章列表自动删除原来的列表，重新构建一个
+- [x] 自动推送
 - [ ] 内建搜索功能
 - [ ] markdown 语法解析器
 - [ ] 字体设置
 - [ ] 每篇文章的目录生成
+
+
+
+使用 Apple scripts 执行自动 push 脚本
+
+```bash
+cd /Users/yanyuming/Downloads/GitHub/PurePage && git add . && git commit -m "$(date)" && git push origin $(git name-rev --name-only HEAD)
+```
+
