@@ -17,4 +17,6 @@
 
 ## 关于我
 
+🔥 A minimalist.
+
 📖 Code is law.
