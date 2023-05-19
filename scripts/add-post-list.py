@@ -3,7 +3,33 @@
 import os
 import re
 import markdown
+from datetime import datetime
 os.system("clear")
+
+def generate_sitemap(url_list):
+    print("generate sitemap...")
+    # 定义网站 URL 和更新日期
+    site_url = "https://yym68686.top/"
+    lastmod = datetime.now().strftime('%Y-%m-%d')
+
+    # 解析 JSON 数据
+    url_list = [""] + url_list
+
+    # 从 JSON 数据中获取 URL 列表
+    urls = [site_url + item for item in url_list]
+
+    # 生成 sitemap.xml 文件
+    with open('sitemap.xml', 'w') as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        f.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
+        for url in urls:
+            print("=>", url)
+            f.write('  <url>\n')
+            f.write('    <loc>{}</loc>\n'.format(url))
+            f.write('    <lastmod>{}</lastmod>\n'.format(lastmod))
+            f.write('    <changefreq>daily</changefreq>\n')
+            f.write('  </url>\n')
+        f.write('</urlset>\n')
 
 def gettitle(text):
     regex = r"^#\s.*?$"
@@ -44,5 +70,9 @@ md_content = md_content[:start] + "\n" + new_content + "\n" + md_content[end:]
 # print(md_content)
 with open("index.md", "w") as f:
     f.write(md_content)
+
+md_files_path = [url[2:] for url in md_files_path]
+# print(md_files_path)
+generate_sitemap(md_files_path)
 
 os.system(f'cd {path} && git add . && git commit -m "$(date)" && git push origin $(git name-rev --name-only HEAD)')

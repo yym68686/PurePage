@@ -1,11 +1,16 @@
 train_net.py main()
 
+评估部分
+
 - [ ] model = DefaultTrainer.build_model()
 - [ ] Checkpointer().load()
 - [ ] res = DefaultTrainer.test()
+
+训练部分
+
 - [ ] trainer = DefaultTrainer() -> fastreid.engine.defaults.DefaultTrainer
-  - [ ] data_loader, single_data_loader = self.build_train_loader() -> fastreid.engine.defaults.DefaultTrainer.build_train_loader
-    - [ ] return build_reid_train_loader() -> fastreid.data.build.build_reid_train_loader
+  - [ ] data_loader, single_data_loader = self.build_train_loader()
+    - [ ] return build_reid_train_loader()
       - [ ] comm.get_world_size()
       - [ ] batch_sampler = torch.utils.data.sampler.BatchSampler()
       - [ ] train_loader = DataLoaderX()
