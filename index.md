@@ -2,7 +2,7 @@
 
 ## 联系方式
 
-✈️ [Telegram](https://t.me/yym68686)
+✈️ [Telegram](https://t.me/yym68686) and [Telegram channel](https://t.me/yymTalk)
 
 🐦 [Twitter](https://twitter.com/yym68686)
 
