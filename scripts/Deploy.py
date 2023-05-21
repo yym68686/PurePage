@@ -1,5 +1,5 @@
 # 获得当前文件夹下所有markdown文件的目录
-# 用法：python getmdtoc.py
+# 用法：python Deploy.py
 import os
 import re
 import markdown
@@ -41,12 +41,19 @@ post_path = path + '/post/'
 all_files = os.listdir(post_path)
 md_files = []
 md_files_path = []
+md_create_time = []
 for subdir in all_files:
     if os.path.isdir(post_path + f"{subdir}"):
         post_dir = os.listdir(post_path + f"{subdir}")
         if "index.md" in post_dir:
+            timestamp = os.path.getctime(post_path + f"{subdir}/index.md")
+            dt = datetime.fromtimestamp(timestamp)
+            md_create_time += [dt.strftime("%Y-%m-%d")]
             md_files_path += ["./post/" + f"{subdir}/index.md"]
-            print("=>", "./post/" + f"{subdir}/index.md")
+            print("=>", dt.strftime("%Y-%m-%d"), "./post/" + f"{subdir}/index.md")
+
+post_list = list(zip(md_files_path, md_create_time))
+post_sorted_list = sorted(post_list, key=lambda x: x[1], reverse=True)
 
 regex = r"##\s文章列表\n(\n*(-\s.*\n)*\n*)##"
 with open("index.md", "r") as f:
@@ -61,18 +68,17 @@ for matchNum, match in enumerate(matches, start=1):
     break
 
 new_content = ""
-for mdpath in md_files_path:
+for mdpath, create_time in post_sorted_list:
     with open(mdpath, "r") as f:
         post_content = f.read()
     title = gettitle(post_content)
-    new_content += f"- [{title}]({mdpath})\n"
+    new_content += f"- [{title}]({mdpath}) {create_time}\n"
 md_content = md_content[:start] + "\n" + new_content + "\n" + md_content[end:]
-# print(md_content)
 with open("index.md", "w") as f:
     f.write(md_content)
 
-md_files_path = [url[2:] for url in md_files_path]
-# print(md_files_path)
+md_files_path = ["/".join(url[2:].split("/")[:-1]) for url in md_files_path]
+print(md_files_path)
 generate_sitemap(md_files_path)
 
 os.system(f'cd {path} && git add . && git commit -m "$(date)" && git push origin $(git name-rev --name-only HEAD)')
