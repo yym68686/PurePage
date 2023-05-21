@@ -11,11 +11,7 @@ def generate_sitemap(url_list):
     # 定义网站 URL 和更新日期
     site_url = "https://yym68686.top/"
     lastmod = datetime.now().strftime('%Y-%m-%d')
-
-    # 解析 JSON 数据
     url_list = [""] + url_list
-
-    # 从 JSON 数据中获取 URL 列表
     urls = [site_url + item for item in url_list]
 
     # 生成 sitemap.xml 文件
