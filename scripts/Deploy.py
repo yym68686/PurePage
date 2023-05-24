@@ -2,7 +2,6 @@
 # 用法：python Deploy.py
 import os
 import re
-import markdown
 from datetime import datetime
 os.system("clear")
 
