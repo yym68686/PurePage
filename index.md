@@ -12,7 +12,7 @@
 
 ## 文章列表
 
-- [一个极简主义者的博客页面](./post/develop-purepage/index.md) 2023-05-21
+- [一个极简主义者的博客页面](./post/purepage/index.md) 2023-05-24
 - [Re-ID 综述论文分享](./post/reid-outlook-paper-share/index.md) 2023-05-04
 
 ## 关于我
