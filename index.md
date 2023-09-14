@@ -12,7 +12,8 @@
 
 ## 文章列表
 
-- [一个极简主义者的博客页面](./post/purepage/index.md) 2023-05-24
+- [Hierarchical Spatio-Temporal Representation Learning for Gait Recognition 论文分享](./post/HSTL/index.md) 2023-09-14
+- [一个极简主义者的博客页面](./post/purepage/index.md) 2023-05-25
 - [Re-ID 综述论文分享](./post/reid-outlook-paper-share/index.md) 2023-05-04
 
 ## 关于我
