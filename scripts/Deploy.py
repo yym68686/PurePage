@@ -41,7 +41,7 @@ for subdir in all_files:
     if os.path.isdir(post_path + f"{subdir}"):
         post_dir = os.listdir(post_path + f"{subdir}")
         if "index.md" in post_dir:
-            timestamp = os.path.getctime(post_path + f"{subdir}/index.md")
+            timestamp = os.path.getmtime(post_path + f"{subdir}/index.md")
             dt = datetime.fromtimestamp(timestamp)
             md_create_time += [dt.strftime("%Y-%m-%d")]
             md_files_path += ["./post/" + f"{subdir}/index.md"]
