@@ -2,27 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yym68686.top/</loc>
-    <lastmod>2023-11-29</lastmod>
+    <lastmod>2024-01-11</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://yym68686.top/post/purepage</loc>
-    <lastmod>2023-11-29</lastmod>
+    <lastmod>2024-01-11</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://yym68686.top/post/fine-tuning</loc>
+    <lastmod>2024-01-11</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://yym68686.top/post/reid-outlook-paper-share</loc>
-    <lastmod>2023-11-29</lastmod>
+    <lastmod>2024-01-11</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://yym68686.top/post/DyGait</loc>
-    <lastmod>2023-11-29</lastmod>
+    <lastmod>2024-01-11</lastmod>
     <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://yym68686.top/post/HSTL</loc>
-    <lastmod>2023-11-29</lastmod>
+    <lastmod>2024-01-11</lastmod>
     <changefreq>daily</changefreq>
   </url>
 </urlset>
