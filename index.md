@@ -12,6 +12,7 @@
 
 ## 文章列表
 
+- [Language Model Beats Diffusion -- Tokenizer is Key to Visual Generation 论文分享](./post/MAGVITv2/index.md) 2024-01-24
 - [使用 MacBook Pro 微调 LLM 实践](./post/fine-tuning/index.md) 2024-01-11
 - [DyGait: Exploiting Dynamic Representations for High-performance Gait Recognition 论文分享](./post/DyGait/index.md) 2023-11-29
 - [Hierarchical Spatio-Temporal Representation Learning for Gait Recognition 论文分享](./post/HSTL/index.md) 2023-09-14
