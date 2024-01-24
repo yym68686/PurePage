@@ -173,7 +173,7 @@ https://bnucsy.github.io/MAGVIT/
 
 [什么是VAE与VQ-VAE](https://blog.csdn.net/zcyzcyjava/article/details/126559061)
 
-[详解VQGAN（一）| 结合离散化编码与Transformer的百万像素图像生成](https://zhuanlan.zhihu.com/p/515214329)
+[详解VQGAN（一）结合离散化编码与Transformer的百万像素图像生成](https://zhuanlan.zhihu.com/p/515214329)
 
 [详解VQVAE：Neural Discrete Representation Learning](https://blog.csdn.net/justBeHerHero/article/details/128203770)
 
