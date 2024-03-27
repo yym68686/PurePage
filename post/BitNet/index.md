@@ -1,4 +1,4 @@
-# BitNet: 1-bit Transformers 解析
+# BitNet: Scaling 1-bit Transformers for Large Language Models 论文分享
 
 ## Motivation
 
