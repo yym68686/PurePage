@@ -1,4 +1,4 @@
-# BitNet
+# BitNet: 1-bit Transformers 解析
 
 ## Motivation
 
@@ -34,10 +34,10 @@ $$
 2. 使用符号函数将权重二值化为 +1 或 −1。二值化后使用一个缩放因子 β 来减少实值权重与二值化权重之间的 l2 误差。权重 $W \in\mathcal{R}^{n \times m}$ 的二值化可以表述为：
 
 $$
-\widetilde{W}=\mathrm{S i g n} ( W-\alpha), 
+\widetilde{W}=\mathrm{S i g n} ( W-\alpha),
 $$
 $$
-\mathrm{S i g n} ( W_{i j} )=\left\{\begin{array} {c c} {{+1,}} & {{\quad\mathrm{i f} \ W_{i j} > 0,}} \\ {{-1,}} & {{\quad\mathrm{i f} \ W_{i j} \leq0,}} \\ \end{array} \right. 
+\mathrm{S i g n} ( W_{i j} )=\left\{\begin{array} {c c} {{+1,}} & {{\quad\mathrm{i f} \ W_{i j} > 0,}} \\ {{-1,}} & {{\quad\mathrm{i f} \ W_{i j} \leq0,}} \\ \end{array} \right.
 $$
 $$
 \alpha=\frac{1} {n m} \sum_{i j} W_{i j}
