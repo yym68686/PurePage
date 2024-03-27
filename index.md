@@ -12,6 +12,8 @@
 
 ## 文章列表
 
+- [BitNet](./post/BitNet/index.md) 2024-03-28
+- [Mamba 系列全解析与实践](./post/Mamba/index.md) 2024-03-01
 - [Language Model Beats Diffusion -- Tokenizer is Key to Visual Generation 论文分享](./post/MAGVITv2/index.md) 2024-01-24
 - [使用 MacBook Pro 微调 LLM 实践](./post/fine-tuning/index.md) 2024-01-11
 - [DyGait: Exploiting Dynamic Representations for High-performance Gait Recognition 论文分享](./post/DyGait/index.md) 2023-11-29
