@@ -37,7 +37,7 @@ $$
 \widetilde{W}=\mathrm{S i g n} ( W-\alpha),
 $$
 $$
-\mathrm{S i g n} ( W_{i j} )=\left\{\begin{array} {c c} {{+1,}} & {{\quad\mathrm{i f} \ W_{i j} > 0,}} \\ {{-1,}} & {{\quad\mathrm{i f} \ W_{i j} \leq0,}} \\ \end{array} \right.
+\mathrm{S i g n} ( W_{i j} )=\left\{\begin{array} {c c} {{+1,}} & \quad\mathrm{i f} \ W_{i j} > 0, \\ {{-1,}} & \quad\mathrm{i f} \ W_{i j} \leq0, \\ \end{array} \right.
 $$
 $$
 \alpha=\frac{1} {n m} \sum_{i j} W_{i j}
