@@ -180,7 +180,7 @@ y=\widetilde{W} \widetilde{x}
 $$
 我们假设 $W$ 和 $x$ 中的元素是相互独立的，并且具有相同的分布，而 $W$ 和 $x$ 彼此独立。然后输出 $y$ 的方差被估计为：
 $$
-\begin{array} {r l} {{{\mathrm{V a r} ( y )}}} & {{{{}=n \mathrm{V a r} ( \tilde{w} \tilde{x} )}}} \\ {{{{}}}} & {{{{}=n E [ \tilde{w}^{2} ] E [ \tilde{x}^{2} ]}}} \\ {{{{}}}} & {{{{}=n \beta^{2} E [ \tilde{x}^{2} ] \approx E [ \tilde{x}^{2} ] =Var(\tilde{x}) + (E[\tilde{x}])^2}}} \\ \end{array}
+\begin{array} {r l} \mathrm{V a r} ( y ) & =n \mathrm{V a r} ( \tilde{w} \tilde{x} ) \\  & =n E [ \tilde{w}^{2} ] E [ \tilde{x}^{2} ] \\  & =n \beta^{2} E [ \tilde{x}^{2} ] \approx E [ \tilde{x}^{2} ] =Var(\tilde{x}) + (E[\tilde{x}])^2 \\ \end{array}
 $$
 对于全精度计算，输出 $Var(y)$ 的方差在标准初始化方法（例如，Kaiming 初始化或 Xavier 初始化）下是 1，这对训练稳定性有很大的好处。为了在输入张量量化后保持方差，在输入张量量化之前引入了 LayerNorm 函数。这样，输出 $y$ 的方差就被估计为 $Var(y)≈E[LN(\tilde{x})^2]=1$，与全精度计算时的方差 $Var(y)$ 保持了相同的量级。有了 LayerNorm 和上述量化方法，我们得到了 BitLinear 的完整公式：
 $$
