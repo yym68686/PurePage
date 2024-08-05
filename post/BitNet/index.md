@@ -232,6 +232,8 @@ BitNet 在大学习率下更为稳定。
 
 ![image-20240328040326124](./assets/image-20240328040326124.png)
 
+训练细节
+
 ## References
 
 code:
