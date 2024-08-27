@@ -285,13 +285,13 @@ def get_all_md_documents():
                 documents.append({"title": title, "content": content, "type": "wiki", "path": relative_path})
 
     return documents
+all_documents = get_all_md_documents()
 
 @rt("/search")
 def get(query: str):
     if not query:
         return ""
 
-    all_documents = get_all_md_documents()
     data_source = [item["content"] for item in all_documents]
 
     results = []
@@ -308,7 +308,6 @@ def search_results_template(results: List[tuple], query: str):
         return Div("没有找到相关结果", cls="tw-p-4 tw-text-gray-200 tw-text-center tw-italic")
 
     result_items = []
-    all_documents = get_all_md_documents()
     for (index, item, match) in results:
         document = all_documents[index]
         result_items.append(

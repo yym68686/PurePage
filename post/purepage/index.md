@@ -11,10 +11,10 @@
 - [x] 自动 git 推送
 - [ ] Deploy.py 终端 log 颜色优化
 - [ ] README 多语言支持
-- [ ] 内建搜索功能
+- [x] 内建搜索功能
 - [ ] markdown 语法解析器
 - [ ] 字体设置
-- [ ] 每篇文章的目录生成
+- [x] 每篇文章的目录生成
 - [x] 生成 sitemap.xml 文件，优化 SEO
 
 
@@ -24,4 +24,3 @@
 ```bash
 cd /Users/yanyuming/Downloads/GitHub/PurePage && git add . && git commit -m "$(date)" && git push origin $(git name-rev --name-only HEAD)
 ```
-
