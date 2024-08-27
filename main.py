@@ -389,6 +389,7 @@ def get(post_name: str):
 def get_wiki_md_content(directory, reset_image_path=False):
     # 查找所有的 .md 文件
     file_path = directory
+    file_path = os.path.join(os.getcwd(), file_path)
     content = ""
     title = ""
     with open(file_path, "r", encoding="utf-8") as file:
