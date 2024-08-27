@@ -9,3 +9,8 @@ I developed PurePage because I had tried many different blog systems, such as He
 The feature of PurePage is that it is very simple, with no excessive settings and complex functions, only a simple search function and an automatically generated article list. At the same time, the rendering effect of PurePage is very good, using Github's own GitHub Flavored Markdown to render article content, making your articles look more beautiful and professional.
 
 If you are a minimalist blogger looking for a simple and efficient blog page that puts data autonomy and localization at the forefront, then PurePage is definitely a good choice. Please feel free to try it out and welcome any feedback and suggestions.
+
+
+```
+npx tailwindcss -o ./static/tailwind.css --config tailwind.config.js
+```
