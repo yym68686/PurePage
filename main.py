@@ -1,5 +1,6 @@
 import os
 from fasthtml.common import *
+from urllib.parse import unquote
 
 from typing import List, Dict, Optional
 import pypinyin
@@ -414,7 +415,8 @@ def get():
 
 @app.get('/wiki/{post_name:path}')
 def get(post_name: str):
-    content, title = get_wiki_md_content(f"wiki/{post_name}", reset_image_path=False)
+    decoded_post_name = unquote(post_name)
+    content, title = get_wiki_md_content(f"wiki/{decoded_post_name}", reset_image_path=False)
     headings = extract_headings(content)
 
     layout = Div(
