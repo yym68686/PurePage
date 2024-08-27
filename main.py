@@ -239,70 +239,6 @@ def navbar():
         ),
         cls="tw-bg-gray-800 tw-bg-opacity-10 tw-backdrop-filter tw-backdrop-blur-lg tw-shadow-lg tw-fixed tw-top-0 tw-left-0 tw-right-0 tw-z-50"
     )
-
-hdrs = [
-    KatexMarkdownJS(),
-    HighlightJS(langs=['python', 'javascript', 'html', 'css']),
-    Link(href="/static/tailwind.css", rel="stylesheet"),
-    Style('''
-        .layout { display: flex; }
-        .sidebar {
-            # width: 250px;
-            padding: 20px;
-        }
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
-        .sidebar-item { margin-bottom: 10px; }
-        .level-1 { font-weight: bold; }
-        .level-2 { margin-left: 10px; }
-        .level-3 { margin-left: 20px; }
-    '''),
-]
-app, rt = fast_app(hdrs=hdrs)
-
-# 假设 search_entry 函数已经定义
-def get_all_md_documents():
-    documents = []
-
-    # 读取post文件夹下的文档
-    post_dir = "post"
-    for post_name in os.listdir(post_dir):
-        post_path = os.path.join(post_dir, post_name)
-        if os.path.isdir(post_path):
-            content, title = get_post_md_content(post_path, reset_image_path=True)
-            documents.append({"title": title, "content": content, "type": "post", "path": post_name})
-
-    # 读取wiki文件夹下的文档
-    wiki_dir = "wiki"
-    for root, dirs, files in os.walk(wiki_dir):
-        for file in files:
-            if file.endswith(".md"):
-                file_path = os.path.join(root, file)
-                content, title = get_wiki_md_content(file_path, reset_image_path=False)
-                relative_path = os.path.relpath(file_path, wiki_dir)
-                documents.append({"title": title, "content": content, "type": "wiki", "path": relative_path})
-
-    return documents
-all_documents = get_all_md_documents()
-
-@rt("/search")
-def get(query: str):
-    if not query:
-        return ""
-
-    data_source = [item["content"] for item in all_documents]
-
-    results = []
-    for index, item in enumerate(data_source):
-        match = search_entry(item, query)
-        print("match", all_documents[index]["title"], match)
-        if match:
-            results.append([index, item, match])
-
-    return search_results_template(results, query)
-
 def search_results_template(results: List[tuple], query: str):
     if not results:
         return Div("没有找到相关结果", cls="tw-p-4 tw-text-gray-200 tw-text-center tw-italic")
@@ -366,26 +302,6 @@ def get_post_md_content(directory, reset_image_path=False):
             content = modified_content
     return content, title
 
-@app.get("/post/{post_name}/index.md")
-def get(post_name:str):
-    return RedirectResponse(url=f"/post/{post_name}")
-
-@app.get('/post/{post_name}')
-def get(post_name: str):
-    content, title = get_post_md_content(f"post/{post_name}", reset_image_path=True)
-    headings = extract_headings(content)
-    content_with_ids = add_heading_ids(content)
-
-    layout = Div(
-        navbar(),  # 添加导航栏
-        Div(
-            sidebar(headings),
-            Div(Div(content_with_ids, cls="marked"), cls="main-content"),
-        )
-    )
-
-    return Div(Titled(title, layout), cls="tw-mt-16")
-
 def get_wiki_md_content(directory, reset_image_path=False):
     # 查找所有的 .md 文件
     file_path = directory
@@ -407,6 +323,89 @@ def get_wiki_md_content(directory, reset_image_path=False):
             modified_content = re.sub(pattern, replace_path, content)
             content = modified_content
     return content, title
+
+# 假设 search_entry 函数已经定义
+def get_all_md_documents():
+    documents = []
+
+    # 读取post文件夹下的文档
+    post_dir = "post"
+    for post_name in os.listdir(post_dir):
+        post_path = os.path.join(post_dir, post_name)
+        if os.path.isdir(post_path):
+            content, title = get_post_md_content(post_path, reset_image_path=True)
+            documents.append({"title": title, "content": content, "type": "post", "path": post_name})
+
+    # 读取wiki文件夹下的文档
+    wiki_dir = "wiki"
+    for root, dirs, files in os.walk(wiki_dir):
+        for file in files:
+            if file.endswith(".md"):
+                file_path = os.path.join(root, file)
+                content, title = get_wiki_md_content(file_path, reset_image_path=False)
+                relative_path = os.path.relpath(file_path, wiki_dir)
+                documents.append({"title": title, "content": content, "type": "wiki", "path": relative_path})
+
+    return documents
+all_documents = get_all_md_documents()
+
+hdrs = [
+    KatexMarkdownJS(),
+    HighlightJS(langs=['python', 'javascript', 'html', 'css']),
+    Link(href="/static/tailwind.css", rel="stylesheet"),
+    Style('''
+        .layout { display: flex; }
+        .sidebar {
+            # width: 250px;
+            padding: 20px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .sidebar-item { margin-bottom: 10px; }
+        .level-1 { font-weight: bold; }
+        .level-2 { margin-left: 10px; }
+        .level-3 { margin-left: 20px; }
+    '''),
+]
+app, rt = fast_app(hdrs=hdrs)
+
+@rt("/search")
+def get(query: str):
+    if not query:
+        return ""
+
+    data_source = [item["content"] for item in all_documents]
+
+    results = []
+    for index, item in enumerate(data_source):
+        match = search_entry(item, query)
+        print("match", all_documents[index]["title"], match)
+        if match:
+            results.append([index, item, match])
+
+    return search_results_template(results, query)
+
+@app.get("/post/{post_name}/index.md")
+def get(post_name:str):
+    return RedirectResponse(url=f"/post/{post_name}")
+
+@app.get('/post/{post_name}')
+def get(post_name: str):
+    content, title = get_post_md_content(f"post/{post_name}", reset_image_path=True)
+    headings = extract_headings(content)
+    content_with_ids = add_heading_ids(content)
+
+    layout = Div(
+        navbar(),  # 添加导航栏
+        Div(
+            sidebar(headings),
+            Div(Div(content_with_ids, cls="marked"), cls="main-content"),
+        )
+    )
+
+    return Div(Titled(title, layout), cls="tw-mt-16")
 
 @app.get("/wiki/index.md")
 def get():
