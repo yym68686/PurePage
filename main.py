@@ -239,6 +239,7 @@ def navbar():
         ),
         cls="tw-bg-gray-800 tw-bg-opacity-10 tw-backdrop-filter tw-backdrop-blur-lg tw-shadow-lg tw-fixed tw-top-0 tw-left-0 tw-right-0 tw-z-50"
     )
+
 def search_results_template(results: List[tuple], query: str):
     if not results:
         return Div("没有找到相关结果", cls="tw-p-4 tw-text-gray-200 tw-text-center tw-italic")
@@ -405,7 +406,7 @@ def get(post_name: str):
         )
     )
 
-    return Div(Titled(title, layout), cls="tw-mt-16")
+    return Title(title), Div(Titled(title, layout), cls="tw-mt-16")
 
 @app.get("/wiki/index.md")
 def get():
@@ -416,26 +417,27 @@ def get(post_name: str):
     decoded_post_name = unquote(post_name)
     content, title = get_wiki_md_content(f"wiki/{decoded_post_name}", reset_image_path=False)
     headings = extract_headings(content)
+    content_with_ids = add_heading_ids(content)
 
     layout = Div(
         navbar(),  # 添加导航栏
         Div(
             sidebar(headings),
-            Div(Div(content, cls="marked"), cls="main-content"),
+            Div(Div(content_with_ids, cls="marked"), cls="main-content"),
         )
     )
 
-    return Div(Titled(title, layout), cls="tw-mt-16")
+    return Title(title), Div(Titled(title, layout), cls="tw-mt-16")
 
 @app.get('/wiki')
 def get():
     content, title = get_post_md_content("wiki")
-    return Div(Titled(title, Div(navbar(), Div(content, cls="marked"))), cls="tw-mt-16")
+    return Title(title), Div(Titled(title, Div(navbar(), Div(content, cls="marked"))), cls="tw-mt-16")
 
 @rt('/')
 def get():
     content, title = get_post_md_content(".")
-    return Div(Titled(title, Div(navbar(), Div(content, cls="marked"))), cls="tw-mt-16")  # 添加导航栏
+    return Title(title), Div(Titled(title, Div(navbar(), Div(content, cls="marked"))), cls="tw-mt-16")  # 添加导航栏
 
 if __name__ == "__main__":
     import uvicorn
