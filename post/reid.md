@@ -2,7 +2,7 @@
 
 2023.4.26
 
-[PPT链接](./reidoutlook.pdf)
+[PPT链接](./assets/reidoutlook.pdf)
 
 ## 1 前言
 

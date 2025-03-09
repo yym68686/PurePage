@@ -1,0 +1,287 @@
+{
+  "name": "root",
+  "type": "folder",
+  "path": "",
+  "children": [
+    {
+      "name": "wiki",
+      "type": "folder",
+      "path": "wiki",
+      "children": [
+        {
+          "name": "CTF",
+          "type": "folder",
+          "path": "wiki/CTF",
+          "children": [
+            {
+              "name": "GXYCTF2019-StrongestMind.md",
+              "type": "file",
+              "path": "wiki/CTF/GXYCTF2019-StrongestMind.md"
+            },
+            {
+              "name": "HFCTF2020-JustEscape.md",
+              "type": "file",
+              "path": "wiki/CTF/HFCTF2020-JustEscape.md"
+            },
+            {
+              "name": "Hackergame2022.md",
+              "type": "file",
+              "path": "wiki/CTF/Hackergame2022.md"
+            },
+            {
+              "name": "October2019-Twice-SQL-Injection.md",
+              "type": "file",
+              "path": "wiki/CTF/October2019-Twice-SQL-Injection.md"
+            },
+            {
+              "name": "SUCTF2018-GetShell.md",
+              "type": "file",
+              "path": "wiki/CTF/SUCTF2018-GetShell.md"
+            },
+            {
+              "name": "网鼎杯2018-Unfinish.md",
+              "type": "file",
+              "path": "wiki/CTF/网鼎杯2018-Unfinish.md"
+            },
+            {
+              "name": "网鼎杯2020半决赛-AliceWebsite.md",
+              "type": "file",
+              "path": "wiki/CTF/网鼎杯2020半决赛-AliceWebsite.md"
+            }
+          ]
+        },
+        {
+          "name": "GaitSet.md",
+          "type": "file",
+          "path": "wiki/GaitSet.md"
+        },
+        {
+          "name": "LeetCode",
+          "type": "folder",
+          "path": "wiki/LeetCode",
+          "children": [
+            {
+              "name": "5-最长回文子串.md",
+              "type": "file",
+              "path": "wiki/LeetCode/5-最长回文子串.md"
+            },
+            {
+              "name": "53-最大子数组和.md",
+              "type": "file",
+              "path": "wiki/LeetCode/53-最大子数组和.md"
+            },
+            {
+              "name": "62-不同路径.md",
+              "type": "file",
+              "path": "wiki/LeetCode/62-不同路径.md"
+            },
+            {
+              "name": "63-不同路径-ii.md",
+              "type": "file",
+              "path": "wiki/LeetCode/63-不同路径-ii.md"
+            },
+            {
+              "name": "64-最小路径和.md",
+              "type": "file",
+              "path": "wiki/LeetCode/64-最小路径和.md"
+            }
+          ]
+        },
+        {
+          "name": "PCL.md",
+          "type": "file",
+          "path": "wiki/PCL.md"
+        },
+        {
+          "name": "ROS.md",
+          "type": "file",
+          "path": "wiki/ROS.md"
+        },
+        {
+          "name": "android.md",
+          "type": "file",
+          "path": "wiki/android.md"
+        },
+        {
+          "name": "angr.md",
+          "type": "file",
+          "path": "wiki/angr.md"
+        },
+        {
+          "name": "baoyan.md",
+          "type": "file",
+          "path": "wiki/baoyan.md"
+        },
+        {
+          "name": "blockchain.md",
+          "type": "file",
+          "path": "wiki/blockchain.md"
+        },
+        {
+          "name": "cs140e.md",
+          "type": "file",
+          "path": "wiki/cs140e.md"
+        },
+        {
+          "name": "cs231n.md",
+          "type": "file",
+          "path": "wiki/cs231n.md"
+        },
+        {
+          "name": "cv.md",
+          "type": "file",
+          "path": "wiki/cv.md"
+        },
+        {
+          "name": "diffusion.md",
+          "type": "file",
+          "path": "wiki/diffusion.md"
+        },
+        {
+          "name": "index.md",
+          "type": "file",
+          "path": "wiki/index.md"
+        },
+        {
+          "name": "mindspore.md",
+          "type": "file",
+          "path": "wiki/mindspore.md"
+        },
+        {
+          "name": "rcore.md",
+          "type": "file",
+          "path": "wiki/rcore.md"
+        },
+        {
+          "name": "tools",
+          "type": "folder",
+          "path": "wiki/tools",
+          "children": [
+            {
+              "name": "Anaconda.md",
+              "type": "file",
+              "path": "wiki/tools/Anaconda.md"
+            },
+            {
+              "name": "CloudFlare.md",
+              "type": "file",
+              "path": "wiki/tools/CloudFlare.md"
+            },
+            {
+              "name": "Docker.md",
+              "type": "file",
+              "path": "wiki/tools/Docker.md"
+            },
+            {
+              "name": "Linux.md",
+              "type": "file",
+              "path": "wiki/tools/Linux.md"
+            },
+            {
+              "name": "Windows.md",
+              "type": "file",
+              "path": "wiki/tools/Windows.md"
+            },
+            {
+              "name": "algolia.md",
+              "type": "file",
+              "path": "wiki/tools/algolia.md"
+            },
+            {
+              "name": "brew.md",
+              "type": "file",
+              "path": "wiki/tools/brew.md"
+            },
+            {
+              "name": "git.md",
+              "type": "file",
+              "path": "wiki/tools/git.md"
+            },
+            {
+              "name": "nvm.md",
+              "type": "file",
+              "path": "wiki/tools/nvm.md"
+            },
+            {
+              "name": "python.md",
+              "type": "file",
+              "path": "wiki/tools/python.md"
+            }
+          ]
+        },
+        {
+          "name": "ysyx.md",
+          "type": "file",
+          "path": "wiki/ysyx.md"
+        },
+        {
+          "name": "大创实验报告.md",
+          "type": "file",
+          "path": "wiki/大创实验报告.md"
+        },
+        {
+          "name": "软件分析.md",
+          "type": "file",
+          "path": "wiki/软件分析.md"
+        }
+      ]
+    },
+    {
+      "name": "post",
+      "type": "folder",
+      "path": "post",
+      "children": [
+        {
+          "name": "ai4cs.md",
+          "type": "file",
+          "path": "post/ai4cs.md"
+        },
+        {
+          "name": "bitnet.md",
+          "type": "file",
+          "path": "post/bitnet.md"
+        },
+        {
+          "name": "dygait.md",
+          "type": "file",
+          "path": "post/dygait.md"
+        },
+        {
+          "name": "fine-tuning.md",
+          "type": "file",
+          "path": "post/fine-tuning.md"
+        },
+        {
+          "name": "hstl.md",
+          "type": "file",
+          "path": "post/hstl.md"
+        },
+        {
+          "name": "magvitv2.md",
+          "type": "file",
+          "path": "post/magvitv2.md"
+        },
+        {
+          "name": "math.md",
+          "type": "file",
+          "path": "post/math.md"
+        },
+        {
+          "name": "purepage.md",
+          "type": "file",
+          "path": "post/purepage.md"
+        },
+        {
+          "name": "reid.md",
+          "type": "file",
+          "path": "post/reid.md"
+        },
+        {
+          "name": "vit.md",
+          "type": "file",
+          "path": "post/vit.md"
+        }
+      ]
+    }
+  ]
+}

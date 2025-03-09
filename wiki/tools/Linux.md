@@ -73,7 +73,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out serv
 
 一路回车
 
-Nginx 
+Nginx
 
 ```nginx
 server {
@@ -386,15 +386,15 @@ nvidia-smi
 
 表头释义
 
-- Fan：显示风扇转速，数值在0到100%之间，是计算机的期望转速，如果计算机不是通过风扇冷却或者风扇坏了，显示出来就是N/A； 
+- Fan：显示风扇转速，数值在0到100%之间，是计算机的期望转速，如果计算机不是通过风扇冷却或者风扇坏了，显示出来就是N/A；
 - Temp：显卡内部的温度，单位是摄氏度；
 - Perf：表征性能状态，从P0到P12，P0表示最大性能，P12表示状态最小性能；
-- Pwr：能耗表示； 
-- Bus-Id：涉及GPU总线的相关信息； 
-- Disp.A：是Display Active的意思，表示GPU的显示是否初始化； 
-- Memory Usage：显存的使用率； 
+- Pwr：能耗表示；
+- Bus-Id：涉及GPU总线的相关信息；
+- Disp.A：是Display Active的意思，表示GPU的显示是否初始化；
+- Memory Usage：显存的使用率；
 - Volatile GPU-Util：浮动的GPU利用率；
-- Compute M：计算模式； 
+- Compute M：计算模式；
 
 下边的 Processes 显示每块GPU上每个进程所使用的显存情况。
 
@@ -489,7 +489,7 @@ ls -alh
 sudo apt install gparted
 ```
 
-输入 gparted，打开 GUI 界面。需要扩容分区点击右键，然后选择 Resize/Move，弹出对话框中，可以手动输入大小，也可以使用鼠标拖动调整分区大小。调整好分区大小后，点击上方绿色的 √ 按钮，然后点击 Apply。弹出对话框中点击 Close，根目录的扩容就完成了。 
+输入 gparted，打开 GUI 界面。需要扩容分区点击右键，然后选择 Resize/Move，弹出对话框中，可以手动输入大小，也可以使用鼠标拖动调整分区大小。调整好分区大小后，点击上方绿色的 √ 按钮，然后点击 Apply。弹出对话框中点击 Close，根目录的扩容就完成了。
 
 Reference
 
@@ -646,7 +646,7 @@ source ~/.bashrc
 ```bash
 cat >> ~/.bashrc <<EOF
 host_ip=$(ip route | grep default | awk '{print $3}')
-export ALL_PROXY="http://$host_ip:7890"
+export ALL_PROXY="http://host_ip:7890"
 EOF
 source ~/.bashrc
 
@@ -698,7 +698,7 @@ EOF
 ```
 
 ```bash
-sudo vi /run/systemd/resolve/resolv.conf 
+sudo vi /run/systemd/resolve/resolv.conf
 sudo systemctl restart systemd-resolved.service
 ```
 
@@ -1239,7 +1239,7 @@ Ctrl+B   返回上一屏
 =        输出当前行的行号
 ：f      输出文件名和当前行的行号
 v        调用vi编辑器
-!命令    调用Shell，并执行命令 
+!命令    调用Shell，并执行命令
 q        退出more
 ```
 
@@ -1257,7 +1257,7 @@ less 工具也是对文件或其它输出进行分页显示的工具，应该说
 
 ```bash
 1．命令格式：
-less [参数]  文件 
+less [参数]  文件
 2．命令功能：
 less 与 more 类似，但使用 less 可以随意浏览文件，而 more 仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。
 3．命令参数：
