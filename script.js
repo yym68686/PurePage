@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             isPinned = !isPinned;
             togglePin.classList.toggle('pinned', isPinned);
+            if (!isPinned) {
+                sidebar.classList.add('collapsed');
+            }
         }
     });
 
