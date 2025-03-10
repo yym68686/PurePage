@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileTree = document.getElementById('fileTree');
     const markdownContent = document.getElementById('markdown-content');
     const currentFileName = document.getElementById('currentFileName');
-    const sidebarHeader = document.querySelector('.sidebar-header');
+    const sidebarTitle = document.querySelector('.sidebar-header h3');
 
     // 侧边栏状态
     let isPinned = false;
@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.remove('collapsed');
     });
 
-    // 为侧边栏标题添加点击事件，点击时返回首页
-    sidebarHeader.addEventListener('click', function() {
+    // 修改：将事件监听器添加到标题文本元素上，而不是整个标题区域
+    sidebarTitle.addEventListener('click', function() {
         // 加载首页内容
         loadFileContent('index.md');
         // 更新URL
