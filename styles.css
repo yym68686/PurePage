@@ -299,6 +299,9 @@ body, .content {
 .markdown-body a {
     color: #e0e0e0;
     text-decoration: underline;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
 }
 
 .markdown-body a:hover {
@@ -448,4 +451,32 @@ body, .content {
 
 .file-tree-folder > .file-tree-folder-content {
     display: none;
+}
+
+/* 在文件末尾添加移动端样式 */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+        margin-left: -280px;
+    }
+
+    .sidebar.collapsed {
+        margin-left: -280px;
+    }
+
+    .sidebar.expanded {
+        margin-left: 0;
+    }
+
+    .content {
+        padding: 20px 20px;
+    }
+
+    .sidebar-toggle {
+        opacity: 1;
+    }
 }

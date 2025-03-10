@@ -15,15 +15,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // 检查URL并加载对应内容
     checkUrlAndLoadContent();
 
-    // 切换侧边栏可见性
+    // 修改：检测是否为移动设备
+    const isMobile = () => window.innerWidth <= 768;
+
+    // 修改：初始化时根据设备类型设置侧边栏状态
+    if (isMobile()) {
+        sidebar.classList.add('collapsed');
+    }
+
+    // 修改：切换侧边栏可见性的处理
     sidebarToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('collapsed');
+        if (isMobile()) {
+            sidebar.classList.toggle('expanded');
+        } else {
+            sidebar.classList.toggle('collapsed');
+        }
     });
 
-    // 切换侧边栏固定状态
+    // 修改：切换固定状态的处理
     togglePin.addEventListener('click', function() {
-        isPinned = !isPinned;
-        togglePin.classList.toggle('pinned', isPinned);
+        if (isMobile()) {
+            // 在移动端，点击 pin 按钮直接关闭侧边栏
+            sidebar.classList.remove('expanded');
+        } else {
+            isPinned = !isPinned;
+            togglePin.classList.toggle('pinned', isPinned);
+        }
     });
 
     // 当鼠标离开侧边栏且未固定时，折叠侧边栏
@@ -120,6 +137,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 更新当前文件名显示 (如果有此元素)
                     if (currentFileName) {
                         currentFileName.textContent = this.textContent.trim();
+                    }
+
+                    // 在移动端自动隐藏侧边栏
+                    if (isMobile()) {
+                        sidebar.classList.remove('expanded');
                     }
                 });
             });
@@ -232,4 +254,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 页面加载时初始化文件树
     loadFileTree();
+
+    // 添加：监听窗口大小变化
+    window.addEventListener('resize', function() {
+        if (!isMobile()) {
+            sidebar.classList.remove('expanded');
+            if (!isPinned) {
+                sidebar.classList.add('collapsed');
+            }
+        }
+    });
+
+    // 添加：点击内容区域时隐藏侧边栏
+    const content = document.getElementById('content');
+    content.addEventListener('click', function(e) {
+        if (isMobile()) {
+            // 确保点击的不是链接元素
+            if (!e.target.closest('a')) {
+                sidebar.classList.remove('expanded');
+            }
+        }
+    });
+
+    // 添加：阻止侧边栏内的点击事件冒泡到内容区域
+    sidebar.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
 });
