@@ -6,7 +6,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "LXGW WenKai", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
 }
 
 :root {
@@ -33,6 +32,10 @@ body {
     line-height: 1.625rem;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+}
+
+body, .content {
+    font-family: "LXGW WenKai", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
 }
 
 .container {
