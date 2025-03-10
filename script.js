@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.remove('collapsed');
     });
 
-    // 修改：将事件监听器添加到标题文本元素上，而不是整个标题区域
+    // 修改：将事件监听器添加到标题文本元素上
     sidebarTitle.addEventListener('click', function() {
         // 加载首页内容
         loadFileContent('index.md');
@@ -65,6 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.file-tree-item').forEach(item => {
             item.classList.remove('active');
         });
+
+        // 添加：在移动端自动隐藏侧边栏
+        if (isMobile()) {
+            sidebar.classList.remove('expanded');
+        }
     });
 
     // 根据URL加载内容
