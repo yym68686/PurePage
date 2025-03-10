@@ -138,11 +138,6 @@
           "path": "wiki/diffusion.md"
         },
         {
-          "name": "index.md",
-          "type": "file",
-          "path": "wiki/index.md"
-        },
-        {
           "name": "mindspore.md",
           "type": "file",
           "path": "wiki/mindspore.md"
