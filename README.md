@@ -19,6 +19,36 @@ If you're a minimalist blogger looking for a simple, efficient blog page that em
 - Supports code highlighting
 - Responsive interface
 
+## 🚀 Quick Deployment
+
+1. You can deploy PurePage to Vercel with one click:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyym68686%2FPurePage)
+
+2. You can deploy to Cloudflare Pages:
+
+```bash
+# Install Wrangler CLI
+npm install -g wrangler
+
+# Login to Cloudflare
+wrangler login
+
+# Deploy to Cloudflare Pages (with SSL configuration)
+wrangler pages deploy . --project-name purepage --branch main
+```
+
+3. You can also deploy to GitHub Pages:
+
+```bash
+# Fork this repository
+# Then go to Settings -> Pages in your repository
+# In the "Build and deployment" section:
+# - Set "Source" to "Deploy from a branch"
+# - Select your branch (main/master) and root directory (/)
+# - Click Save
+```
+
 ## Usage Guide
 
 Run `generate-sidebar-structure.js` to generate the sidebar file list

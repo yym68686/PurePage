@@ -24,6 +24,36 @@ PurePage 的特点是非常简单，没有多余的设置和复杂的功能，�
 
 - 自适应界面
 
+## 🚀 网页版部署
+
+1. 你可以一键将 PurePage 部署到 Vercel：
+
+[![使用 Vercel 部署](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyym68686%2FPurePage)
+
+2. 你可以部署到 Cloudflare Pages：
+
+```bash
+# 安装 Wrangler CLI
+npm install -g wrangler
+
+# 登录 Cloudflare
+wrangler login
+
+# 部署到 Cloudflare Pages（带 SSL 配置）
+wrangler pages deploy . --project-name purepage --branch main
+```
+
+3. 你也可以部署到 GitHub Pages：
+
+```bash
+# Fork 这个仓库
+# 然后进入你的仓库的 Settings -> Pages
+# 在"构建和部署"部分：
+# - 将"Source"选择为"Deploy from a branch"
+# - 选择你的分支（main/master）和根目录（/）
+# - 点击保存
+```
+
 ## 使用指南
 
 运行 `generate-sidebar-structure.js` 生成侧边栏文件列表
