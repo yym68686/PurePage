@@ -1,5 +1,7 @@
 # PurePage
 
+![image](assets/image.png)
+
 [英文](README.md) | [中文](README_CN.md)
 
 PurePage 是一个极简主义的博客页面，完全基于原生 HTML、JS 和 CSS 实现，主要功能是渲染 Markdown 文章内容，支持渲染 Latex 数学公式，让你专注于写作，而不必担心复杂的博客系统设置和维护。PurePage 注重本地化和数据自主性，确保你的内容始终在你的控制之下。支持部署在 GitHub Pages，vercel 和 Cloudflare Pages。坚持本地优化，不依赖任何第三方服务。

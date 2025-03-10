@@ -1,5 +1,7 @@
 # PurePage
 
+![image](assets/image.png)
+
 [English](README.md) | [中文](README_CN.md)
 
 PurePage is a minimalist blog page completely implemented with native HTML, JS, and CSS. Its main function is to render Markdown article content and support LaTeX mathematical formula rendering, allowing you to focus on writing without worrying about complex blog system setup and maintenance. PurePage emphasizes localization and data autonomy, ensuring your content remains under your control. It supports deployment on GitHub Pages, Vercel, and Cloudflare Pages, adhering to local optimization without relying on any third-party services.
