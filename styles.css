@@ -1,4 +1,6 @@
 @import "./htmd/styles/math.css";
+@import "./htmd/styles/code.css";
+
 /* 全局样式 */
 * {
     margin: 0;
