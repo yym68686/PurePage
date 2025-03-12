@@ -535,5 +535,30 @@ RETURN p.name AS 问题,
 - 第一性原理
 - TRIZ 理论
 
+AI 探索科学突破的一些文章：
+
+https://thomwolf.io/blog/scientific-ai.html
+
 ## AI4CS 步骤二：设计实验验证想法
 
+核心研究问题：“自动化研究科学家能否在人工智能研究领域创造新知识？”。我们将其分解为：“是否可以识别和可重复地执行自动化研究实验？”和“这些实验是否为科学界贡献了新知识？”。
+
+抄袭检查
+
+AI 生成论文：
+
+SakanaAI
+
+https://x.com/SakanaAILabs/status/1899646987781501181
+
+https://github.com/SakanaAI/AI-Scientist-ICLR2025-Workshop-Experiment
+
+生成的论文：https://github.com/SakanaAI/AI-Scientist-ICLR2025-Workshop-Experiment/blob/master/compositional-regularization/annotated_paper.pdf
+
+AutoScienceAI
+
+https://x.com/AutoScienceAI
+
+https://www.autoscience.ai/blog/meet-carl-the-first-ai-system-to-produce-academically-peer-reviewed-research
+
+技术报告：https://drive.google.com/file/d/1iVedOdZDuEdjS4lcm9Z7i8oEDGWfzVJq/view

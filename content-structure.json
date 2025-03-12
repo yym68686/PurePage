@@ -4,6 +4,58 @@
   "path": "",
   "children": [
     {
+      "name": "post",
+      "type": "folder",
+      "path": "post",
+      "children": [
+        {
+          "name": "bitnet.md",
+          "type": "file",
+          "path": "post/bitnet.md"
+        },
+        {
+          "name": "dygait.md",
+          "type": "file",
+          "path": "post/dygait.md"
+        },
+        {
+          "name": "fine-tuning.md",
+          "type": "file",
+          "path": "post/fine-tuning.md"
+        },
+        {
+          "name": "hstl.md",
+          "type": "file",
+          "path": "post/hstl.md"
+        },
+        {
+          "name": "magvitv2.md",
+          "type": "file",
+          "path": "post/magvitv2.md"
+        },
+        {
+          "name": "math.md",
+          "type": "file",
+          "path": "post/math.md"
+        },
+        {
+          "name": "purepage.md",
+          "type": "file",
+          "path": "post/purepage.md"
+        },
+        {
+          "name": "reid.md",
+          "type": "file",
+          "path": "post/reid.md"
+        },
+        {
+          "name": "vit.md",
+          "type": "file",
+          "path": "post/vit.md"
+        }
+      ]
+    },
+    {
       "name": "wiki",
       "type": "folder",
       "path": "wiki",
@@ -106,11 +158,6 @@
           "name": "angr.md",
           "type": "file",
           "path": "wiki/angr.md"
-        },
-        {
-          "name": "baoyan.md",
-          "type": "file",
-          "path": "wiki/baoyan.md"
         },
         {
           "name": "blockchain.md",
@@ -218,63 +265,6 @@
           "name": "软件分析.md",
           "type": "file",
           "path": "wiki/软件分析.md"
-        }
-      ]
-    },
-    {
-      "name": "post",
-      "type": "folder",
-      "path": "post",
-      "children": [
-        {
-          "name": "ai4cs.md",
-          "type": "file",
-          "path": "post/ai4cs.md"
-        },
-        {
-          "name": "bitnet.md",
-          "type": "file",
-          "path": "post/bitnet.md"
-        },
-        {
-          "name": "dygait.md",
-          "type": "file",
-          "path": "post/dygait.md"
-        },
-        {
-          "name": "fine-tuning.md",
-          "type": "file",
-          "path": "post/fine-tuning.md"
-        },
-        {
-          "name": "hstl.md",
-          "type": "file",
-          "path": "post/hstl.md"
-        },
-        {
-          "name": "magvitv2.md",
-          "type": "file",
-          "path": "post/magvitv2.md"
-        },
-        {
-          "name": "math.md",
-          "type": "file",
-          "path": "post/math.md"
-        },
-        {
-          "name": "purepage.md",
-          "type": "file",
-          "path": "post/purepage.md"
-        },
-        {
-          "name": "reid.md",
-          "type": "file",
-          "path": "post/reid.md"
-        },
-        {
-          "name": "vit.md",
-          "type": "file",
-          "path": "post/vit.md"
         }
       ]
     }
