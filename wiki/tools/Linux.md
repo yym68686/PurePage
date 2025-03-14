@@ -2,6 +2,196 @@
 
 `在这里插入代码片`以下是我整理的一些常用命令
 
+## SSH
+
+直接传输公钥
+
+```bash
+ssh-copy-id -i ~\.ssh\id_rsa.pub username@server_ip
+```
+
+手动复制粘贴
+
+```powershell
+notepad C:\Users\yym68686\.ssh\id_rsa.pub
+
+# mac
+open ~/.ssh/id_rsa.pub
+
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+# 我的Windows 公钥
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDes8nua6VNEb461GR7DaYH06gsL3IVPtwxScUPmJ0mwAeyEDhC1EWTl96R34YXbfcLDL+FFv7QUkK7tXYp+vyJog2kmE5OKg/IeyRXHTdbIgjRWpfOJsnaRsENoL6WonUuXr3xYHYpxwqd19mcpXzCl4sJSRkF2UidoblBhXVauk8c/y3E2q9B3lAVom+9qGu+fkOB1IGz/PF8KJfqy4Uii11BZpBm26IEY2yzxA1yz7BhRHRQN2SYs+mHxwfWlmQiyBvl0EqoJhDQSDkHbnOZiGpiJ3HIOXqMvwUZJj1VGDoQ5LwD5hsAoR7yZbottz+J7Nn9mWr533O+uyLHt48OBkTy3GILpVH7wofMBd9g9PCB6XM5Kh4tHddfxptrG4CxkFGw+VQn5xFS6bRq20+odr6qd30EYkT53fe5FcE1zV1HwTq2g5BOlba0OhAeTMtARqJxPSY+FuHULu/M1pGwzQ/qAhANPSqCUMkkkTwQZ/H7fs17dsQ4WSm11EA+1KE= 15497@DESKTOP-VKLTJHK" >> ~/.ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCdz/RYKe9G9xXJxcbwKZirjjTwnSpbCnrrykMqTFbX8MT5hycBgdspl2PXAe/KN63opsdx/jnAJtbzsJE499VVyQUZxIcShwQXiKL5p1g5+OWQM4eRaYd5tpmDurEJHWMOn08H+NKKHsM9olK6l8cligaa9UxHJwsDjdldPJWPXw7EieufWHYBe34S+dcMtBWDvkEV7e27Ne2DTyrnxayRrBHwQ64P/2pVEG3IWC2onw+GKNez3dhDA9wvrD6QYIGM/kiIXmfQoQrMnsYQknEFqioPvIRbT4fMNO0yVRyZuTX2Im+LPU/KucdC8Emhs0135SeDnuPdcbnLQL4cMk65Z9LgAFsea1kiIzJ56qrcR/7lup9G1E2fAjAvMyWmFzQPkHwdY2dZAht257FKhLcGDlzGxsIaqXze9TiYve2vx73deacC8zq/7oFErkoswlTd6CcPoMqTfE0+xUo4g3HFosrcRI3XLdVSAdaK0xC0RuZaYpQBRcwowJFDWvBuAws= yanyuming@yanyumingdeMacBook-Pro.local" >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+```
+
+## 磁盘空间
+
+返回当前目录下每个文件夹的大小（忽略报错信息，最后按磁盘占用从大到小排序），不排文件的大小
+
+```bash
+ls -l | grep "^d" | awk '{print $9}' | xargs -I {} du -sh {} 2>/dev/null | sort -hr
+```
+
+返回当前目录下每个文件夹和文件的大小
+
+```bash
+du -sh * 2>/dev/null | sort -hr
+```
+
+查看磁盘剩余空间
+
+```bash
+df -hl
+```
+
+查看每个根路径的分区大小
+
+```bash
+df -h
+```
+
+返回该目录的大小
+
+```bash
+du -sh dirname
+```
+
+输出当前目录下所有文件的大小
+
+```bash
+du -sh *
+```
+
+返回该文件夹总 M 数
+
+```bash
+du -sm dirname
+```
+
+查看指定文件夹下的所有文件大小（包含子文件夹）
+
+```bash
+du -h dirname
+```
+
+查看当前目录所有文件大小，不显示文件夹大小
+
+```bash
+ls -alh
+```
+
+### 扩容
+
+- 重启 Ubuntu 随即长按 shift 进入 grub 菜单
+- 在 grub 菜单中，选择recovery mode，回车确认
+- 在 Recovery Menu 中，选择 Root Drop to root shell prompt，回车确认
+- 然后输入 root 密码，即可进入 root shell 界面.
+
+然后清理一下 apt 缓存。
+
+在 vmware 配置里扩容磁盘，在 ubuntu 下载磁盘管理工具
+
+```bash
+sudo apt install gparted
+```
+
+输入 gparted，打开 GUI 界面。需要扩容分区点击右键，然后选择 Resize/Move，弹出对话框中，可以手动输入大小，也可以使用鼠标拖动调整分区大小。调整好分区大小后，点击上方绿色的 √ 按钮，然后点击 Apply。弹出对话框中点击 Close，根目录的扩容就完成了。 
+
+Reference
+
+https://blog.csdn.net/qq_34160841/article/details/113058756
+
+## 查看内存
+
+```bash
+cat /proc/meminfo
+```
+
+free 命令是一个快速查看内存使用情况的方法，它是对 /proc/meminfo 收集到的信息的一个概述。
+
+```bash
+free -h
+```
+
+htop 命令显示了每个进程的内存实时使用率。它提供了所有进程的常驻内存大小、程序总内存大小、共享库大小等的报告。列表可以水平及垂直滚动。
+
+```bash
+htop
+```
+
+vmstat命令显示实时的和平均的统计，覆盖CPU、内存、I/O等内容。例如内存情况，不仅显示物理内存，也统计虚拟内存。
+
+```bash
+vmstat -s
+```
+
+## 查看内核和版本
+
+### 完整显示 Linux 内核版本信息
+
+```bash
+cat /proc/version
+```
+
+显示主机名。i386 和 i686 的为 32 位系统；显示为 x86_64 的，才是 64 位系统
+
+```bash
+uname -a
+```
+
+只显示 Linux 内核版本
+
+```bash
+uname -r
+```
+
+### 查看 linux 发行版信息
+
+ubuntu，还是 Debian，如 Debian 11 bullseye
+
+```bash
+lsb_release -a
+```
+
+或者省略版输出
+
+```bash
+cat /etc/issue
+```
+
+### 查看是 64 位还是 32 位
+
+```bash
+getconf LONG_BIT
+```
+
+或者
+
+```bash
+file /bin/ls
+```
+
+或者
+
+```
+uname -a
+```
+
+或者
+
+```
+arch
+```
+
+### 查看指令集架构
+
+```bash
+dpkg --print-architecture
+```
+
 ## VPS
 
 初始化
@@ -73,7 +263,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out serv
 
 一路回车
 
-Nginx
+Nginx 
 
 ```nginx
 server {
@@ -386,15 +576,15 @@ nvidia-smi
 
 表头释义
 
-- Fan：显示风扇转速，数值在0到100%之间，是计算机的期望转速，如果计算机不是通过风扇冷却或者风扇坏了，显示出来就是N/A；
+- Fan：显示风扇转速，数值在0到100%之间，是计算机的期望转速，如果计算机不是通过风扇冷却或者风扇坏了，显示出来就是N/A； 
 - Temp：显卡内部的温度，单位是摄氏度；
 - Perf：表征性能状态，从P0到P12，P0表示最大性能，P12表示状态最小性能；
-- Pwr：能耗表示；
-- Bus-Id：涉及GPU总线的相关信息；
-- Disp.A：是Display Active的意思，表示GPU的显示是否初始化；
-- Memory Usage：显存的使用率；
+- Pwr：能耗表示； 
+- Bus-Id：涉及GPU总线的相关信息； 
+- Disp.A：是Display Active的意思，表示GPU的显示是否初始化； 
+- Memory Usage：显存的使用率； 
 - Volatile GPU-Util：浮动的GPU利用率；
-- Compute M：计算模式；
+- Compute M：计算模式； 
 
 下边的 Processes 显示每块GPU上每个进程所使用的显存情况。
 
@@ -416,171 +606,6 @@ du -sh /var/cache/apt/archives
 
 ```bash
 sudo apt clean
-```
-
-## 磁盘空间
-
-返回当前目录下每个文件夹的大小（忽略报错信息，最后按磁盘占用从大到小排序），不排文件的大小
-
-```bash
-ls -l | grep "^d" | awk '{print $9}' | xargs -I {} du -sh {} 2>/dev/null | sort -hr
-```
-
-返回当前目录下每个文件夹和文件的大小
-
-```bash
-du -sh * 2>/dev/null | sort -hr
-```
-
-查看磁盘剩余空间
-
-```bash
-df -hl
-```
-
-查看每个根路径的分区大小
-
-```bash
-df -h
-```
-
-返回该目录的大小
-
-```bash
-du -sh dirname
-```
-
-输出当前目录下所有文件的大小
-
-```bash
-du -sh *
-```
-
-返回该文件夹总 M 数
-
-```bash
-du -sm dirname
-```
-
-查看指定文件夹下的所有文件大小（包含子文件夹）
-
-```bash
-du -h dirname
-```
-
-查看当前目录所有文件大小，不显示文件夹大小
-
-```bash
-ls -alh
-```
-
-### 扩容
-
-- 重启 Ubuntu 随即长按 shift 进入 grub 菜单
-- 在 grub 菜单中，选择recovery mode，回车确认
-- 在 Recovery Menu 中，选择 Root Drop to root shell prompt，回车确认
-- 然后输入 root 密码，即可进入 root shell 界面.
-
-然后清理一下 apt 缓存。
-
-在 vmware 配置里扩容磁盘，在 ubuntu 下载磁盘管理工具
-
-```bash
-sudo apt install gparted
-```
-
-输入 gparted，打开 GUI 界面。需要扩容分区点击右键，然后选择 Resize/Move，弹出对话框中，可以手动输入大小，也可以使用鼠标拖动调整分区大小。调整好分区大小后，点击上方绿色的 √ 按钮，然后点击 Apply。弹出对话框中点击 Close，根目录的扩容就完成了。
-
-Reference
-
-https://blog.csdn.net/qq_34160841/article/details/113058756
-
-## 查看内存
-
-```bash
-cat /proc/meminfo
-```
-
-free 命令是一个快速查看内存使用情况的方法，它是对 /proc/meminfo 收集到的信息的一个概述。
-
-```bash
-free -h
-```
-
-htop 命令显示了每个进程的内存实时使用率。它提供了所有进程的常驻内存大小、程序总内存大小、共享库大小等的报告。列表可以水平及垂直滚动。
-
-```bash
-htop
-```
-
-vmstat命令显示实时的和平均的统计，覆盖CPU、内存、I/O等内容。例如内存情况，不仅显示物理内存，也统计虚拟内存。
-
-```bash
-vmstat -s
-```
-
-## 查看内核和版本
-
-### 完整显示 Linux 内核版本信息
-
-```bash
-cat /proc/version
-```
-
-显示主机名。i386 和 i686 的为 32 位系统；显示为 x86_64 的，才是 64 位系统
-
-```bash
-uname -a
-```
-
-只显示 Linux 内核版本
-
-```bash
-uname -r
-```
-
-### 查看 linux 发行版信息
-
-ubuntu，还是 Debian，如 Debian 11 bullseye
-
-```bash
-lsb_release -a
-```
-
-或者省略版输出
-
-```bash
-cat /etc/issue
-```
-
-### 查看是 64 位还是 32 位
-
-```bash
-getconf LONG_BIT
-```
-
-或者
-
-```bash
-file /bin/ls
-```
-
-或者
-
-```
-uname -a
-```
-
-或者
-
-```
-arch
-```
-
-### 查看指令集架构
-
-```bash
-dpkg --print-architecture
 ```
 
 ## WSL 固定 ip
@@ -646,7 +671,7 @@ source ~/.bashrc
 ```bash
 cat >> ~/.bashrc <<EOF
 host_ip=$(ip route | grep default | awk '{print $3}')
-export ALL_PROXY="http://host_ip:7890"
+export ALL_PROXY="http://$host_ip:7890"
 EOF
 source ~/.bashrc
 
@@ -698,7 +723,7 @@ EOF
 ```
 
 ```bash
-sudo vi /run/systemd/resolve/resolv.conf
+sudo vi /run/systemd/resolve/resolv.conf 
 sudo systemctl restart systemd-resolved.service
 ```
 
@@ -834,12 +859,12 @@ References
 
 ## 通配符
 
-| ?   | 匹配一个任意字符                              |
-| --- | --------------------------------------------- |
-| *   | 匹配0个或多个任意字符，也就是可以匹配任何内容 |
-| []  | 匹配括号中任意一个字符                        |
-| [-] | 匹配括号中任意一个字符，“-”代表范围         |
-| [^] | 逻辑非，表示匹配不是括号内的一个字符          |
+| ?    | 匹配一个任意字符                              |
+| ---- | --------------------------------------------- |
+| *    | 匹配0个或多个任意字符，也就是可以匹配任何内容 |
+| []   | 匹配括号中任意一个字符                        |
+| [-]  | 匹配括号中任意一个字符，“-”代表范围           |
+| [^]  | 逻辑非，表示匹配不是括号内的一个字符          |
 
 ## Alpine 别名
 
@@ -1239,7 +1264,7 @@ Ctrl+B   返回上一屏
 =        输出当前行的行号
 ：f      输出文件名和当前行的行号
 v        调用vi编辑器
-!命令    调用Shell，并执行命令
+!命令    调用Shell，并执行命令 
 q        退出more
 ```
 
@@ -1257,7 +1282,7 @@ less 工具也是对文件或其它输出进行分页显示的工具，应该说
 
 ```bash
 1．命令格式：
-less [参数]  文件
+less [参数]  文件 
 2．命令功能：
 less 与 more 类似，但使用 less 可以随意浏览文件，而 more 仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。
 3．命令参数：
@@ -1448,10 +1473,13 @@ su su - sudo区别：
 为了避免每次使用 sudo 命令时都输入密码，我们可以将密码关闭。操作方法：
 
 1. 终端输入命令，打开 `visudo`：
+
    ```bash
    sudo visudo
    ```
+
 2. 找到 `%sudo ALL=(ALL:ALL) ALL` 这一行修改为：
+
    ```bash
    %sudo ALL=(ALL:ALL) NOPASSWD:ALL
    ```
@@ -1583,7 +1611,6 @@ Linux加载环境变量的顺序如下：
 6. `~/.bashrc`
 
 ```bash
-
 vim ~/.bashrc
 source ~/.bashrc
 ```

@@ -180,11 +180,6 @@
           "path": "wiki/cv.md"
         },
         {
-          "name": "diffusion.md",
-          "type": "file",
-          "path": "wiki/diffusion.md"
-        },
-        {
           "name": "mindspore.md",
           "type": "file",
           "path": "wiki/mindspore.md"
