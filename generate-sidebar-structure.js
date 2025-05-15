@@ -98,4 +98,4 @@ function generateFoldersStructure(folders = ['wiki', 'post']) {
 }
 
 // 执行主函数 - 可以指定要扫描的文件夹数组
-generateFoldersStructure(['post', 'wiki']);
+generateFoldersStructure(['post', 'ai', 'wiki']);

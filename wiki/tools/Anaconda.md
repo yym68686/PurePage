@@ -17,10 +17,15 @@ sh miniconda.sh -b
 echo -e 'if [ -f ~/.bashrc ]; then\n   source ~/.bashrc\nfi' >> ~/.bash_profile
 source ~/.bashrc
 ~/miniconda3/bin/conda activate base
+
 pip install pipx
 pipx ensurepath
 source ~/.bashrc
 pipx install nvitop
+
+# 使用 htop 查看每个cpu核心的使用情况
+sudo apt update
+sudo apt install htop
 
 conda config --remove-key channels
 
@@ -35,6 +40,9 @@ conda config --add channels https://mirrors.zju.edu.cn/anaconda/cloud/pytorch-lt
 conda config --add channels https://mirrors.zju.edu.cn/anaconda/cloud/MindSpore/
 
 conda config --set show_channel_urls yes
+
+
+pip config set global.index-url https://mirrors.zju.edu.cn/pypi/web/simple
 ```
 
 下载脚本

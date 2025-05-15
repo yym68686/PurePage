@@ -2,6 +2,16 @@
 
 `在这里插入代码片`以下是我整理的一些常用命令
 
+## swap
+
+```bash
+free -h
+fallocate -l 1G /swapfile
+chmod 600 /swapfile
+swapon /swapfile
+swapon --show
+```
+
 ## SSH
 
 直接传输公钥

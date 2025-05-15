@@ -56,6 +56,18 @@
       ]
     },
     {
+      "name": "ai",
+      "type": "folder",
+      "path": "ai",
+      "children": [
+        {
+          "name": "ctm.md",
+          "type": "file",
+          "path": "ai/ctm.md"
+        }
+      ]
+    },
+    {
       "name": "wiki",
       "type": "folder",
       "path": "wiki",
