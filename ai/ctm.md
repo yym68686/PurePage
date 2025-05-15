@@ -107,9 +107,9 @@ Continuous Thought Machine (CTM) 之所以能够在模拟“思考”方面展�
     *   如论文 **Section 2.3 "Privately-parameterized neuron-level models"** 和 **Listing 2** 所述，对于每个神经元 `𝑑`，其后激活状态 `z𝑡+1_𝑑` 是通过一个由其私有参数 `𝜃𝑑` 控制的函数 `𝑔𝜃𝑑` 作用于其前激活历史 `A𝑡_𝑑` 得到的：`z𝑡+1_𝑑 = 𝑔𝜃𝑑 (A𝑡_𝑑)`。
 
 *   **代码实现**：
-    *   这一机制在 CTM 代码库中主要通过 `/app/work/continuous-thought-machines/models/modules.py` 文件中的 `SuperLinear` 类来实现。
-    *   `SuperLinear` 类的设计非常巧妙。其文档字符串明确指出："Implements Neuron-Level Models (NLMs) for the CTM... It applies N independent linear transformations (or small MLPs when used sequentially) to corresponding slices of the input tensor along a specified dimension (typically the neuron or feature dimension)." 这意味着，如果输入张量的某个维度代表了 `D` 个神经元，并且每个神经元的前激活历史长度为 `M`，那么 `SuperLinear` 可以被配置为对这 `D` 个神经元的 `M` 维历史各自应用一个独立的、参数不同的小型 MLP（通常是一层或两层全连接网络）。
-    *   在 `/app/work/continuous-thought-machines/models/ctm.py` 的 `ContinuousThoughtMachine` 类的 `__init__` 方法中，`self.nlms` 通常被初始化为一个包含一个或多个 `SuperLinear` 实例的 `nn.Sequential` 容器。例如，一个两层的 NLM MLP 可以通过 `nn.Sequential(SuperLinear(...), nn.ReLU(), SuperLinear(...))` 来实现。
+    *   这一机制在 CTM 代码库中主要通过 `continuous-thought-machines/models/modules.py` 文件中的 `SuperLinear` 类来实现。
+    *   `SuperLinear` 类的设计非常巧妙。论文明确指出："Implements Neuron-Level Models (NLMs) for the CTM... It applies N independent linear transformations (or small MLPs when used sequentially) to corresponding slices of the input tensor along a specified dimension (typically the neuron or feature dimension)." 这意味着，如果输入张量的某个维度代表了 `D` 个神经元，并且每个神经元的前激活历史长度为 `M`，那么 `SuperLinear` 可以被配置为对这 `D` 个神经元的 `M` 维历史各自应用一个独立的、参数不同的小型 MLP（通常是一层或两层全连接网络）。
+    *   在 `continuous-thought-machines/models/ctm.py` 的 `ContinuousThoughtMachine` 类的 `__init__` 方法中，`self.nlms` 通常被初始化为一个包含一个或多个 `SuperLinear` 实例的 `nn.Sequential` 容器。例如，一个两层的 NLM MLP 可以通过 `nn.Sequential(SuperLinear(...), nn.ReLU(), SuperLinear(...))` 来实现。
     *   在 `ContinuousThoughtMachine` 的 `forward` 方法的内部迭代循环中，`self.nlms` 会被调用，其输入是当前所有神经元的前激活历史 `pre_acts_history` (形状通常为 `batch_size x num_neurons x history_length`)，输出则是新的后激活状态 `z` (形状通常为 `batch_size x num_neurons`)。
 
 *   **意义与影响**：
@@ -131,7 +131,7 @@ Continuous Thought Machine (CTM) 之所以能够在模拟“思考”方面展�
     *   论文还引入了**可学习的时间衰减因子 (`𝑟𝑖𝑗`)** (Eq 9, 10)，用于调整历史激活对当前同步性计算的影响。这使得模型可以学习不同神经元对之间的同步关系在时间尺度上的依赖性（例如，某些同步关系可能更依赖于近期的活动，而另一些则可能整合更长期的历史）。
 
 *   **代码实现**：
-    *   神经同步的计算主要在 `/app/work/continuous-thought-machines/models/ctm.py` 文件中 `ContinuousThoughtMachine` 类的 `compute_synchronisation` 方法中实现。
+    *   神经同步的计算主要在 `continuous-thought-machines/models/ctm.py` 文件中 `ContinuousThoughtMachine` 类的 `compute_synchronisation` 方法中实现。
     *   该方法接收后激活状态历史 (`activated_state_trace`，对应论文中的 `Z𝑡`) 以及可选的衰减参数 (`decay_alpha`, `decay_beta`, `r` 等，用于实现可学习的时间衰减) 作为输入。
     *   其内部逻辑遵循论文 Listing 3 的描述：
         *   首先，它会根据 `synch_type` (是用于 'action' 还是 'output') 选择预定义的神经元对索引 (`self.left_neurons_action/output`, `self.right_neurons_action/output`)。这些索引决定了从完整的 `D x D` 同步可能性中对哪些神经元对进行采样。
@@ -204,7 +204,7 @@ CTM 这种独特的损失函数设计最引人注目的成果之一，便是**�
 
 ### 3.4 代码实现关联
 
-CTM 的这种损失函数思想在代码库中得到了清晰的体现，主要位于 `/app/work/continuous-thought-machines/utils/losses.py` 文件中。
+CTM 的这种损失函数思想在代码库中得到了清晰的体现，主要位于 `continuous-thought-machines/utils/losses.py` 文件中。
 
 *   **`image_classification_loss` 函数**:
     *   这个函数是针对图像分类任务（如ImageNet、CIFAR）的损失函数实现，它直接对应了论文 Section 2.5 和 Listing 4 中描述的通用 CTM 损失概念。
@@ -240,7 +240,7 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
     *   值得注意的是，论文提到这是一个“受约束的 (constrained)”版本的 ResNet-152，其初始卷积层的卷积核大小被从标准的 `7x7` 修改为 `3x3`。这样做的一个可能目的是限制初始阶段的感受野，迫使模型更多地依赖后续的 CTM 内部机制来进行信息的整合与推理，而不是过早地依赖大规模的特征融合。
     *   输入的 ImageNet 图像首先会被进行标准的预处理，例如将短边缩放到 256 像素，然后中心裁剪或调整大小到 `224x224` 像素。
     *   这些预处理后的图像随后被送入 ResNet-152 backbone。CTM 利用的是 ResNet 在其最终的全局平均池化层和全连接分类层之前的卷积特征图。论文中提到，这些特征图的大小通常为 `14x14`（具体取决于 ResNet 的阶段）。这些空间特征图被用作 CTM 内部注意力机制的**键 (Keys)** 和**值 (Values)**。
-    *   在代码层面，`ContinuousThoughtMachine` 类 (位于 `/app/work/continuous-thought-machines/models/ctm.py`) 的 `set_backbone` 方法会根据传入的配置参数（例如 `backbone_type='resnet152-x'`，其中 `x` 可能表示 ResNet 的不同变体或输出阶段）来初始化相应的 ResNet 实例。
+    *   在代码层面，`ContinuousThoughtMachine` 类 (位于 `continuous-thought-machines/models/ctm.py`) 的 `set_backbone` 方法会根据传入的配置参数（例如 `backbone_type='resnet152-x'`，其中 `x` 可能表示 ResNet 的不同变体或输出阶段）来初始化相应的 ResNet 实例。
 
 *   **CTM 模型关键参数配置 (参考论文 Appendix C.1)**：
     为了在 ImageNet 任务上取得有竞争力的性能，CTM 的关键超参数被精心设置，这些参数共同定义了其内部“思考”的深度、宽度以及各个组件的复杂度：
@@ -285,7 +285,7 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
     *   **神经动力学分析 (Neural Dynamics Analysis - Figure 4)**:
         *   这是 CTM 研究中最引人入胜的部分之一。论文通过可视化**单个神经元的后激活状态 (`z𝑡`，即 NLM 的输出)** 随着内部滴答 `t` 的演变轨迹，展示了 CTM 内部神经活动的丰富性和多样性。Figure 4 显示了一些神经元可能表现出振荡行为，一些可能在特定阶段被激活然后抑制，另一些则可能表现出更复杂的模式。
         *   这些动态模式正是 CTM 用来计算神经同步的基础，是其核心表征的来源。
-        *   代码层面，要进行此类分析，需要在 `ContinuousThoughtMachine` 的 `forward` 循环中记录每个内部滴答产生的 `z` 值 (或者直接记录 `post_acts_history` 的内容)。在代码库的 `/app/work/continuous-thought-machines/tasks/image_classification/plotting.py` 文件中，有一个名为 `plot_neural_dynamics` 的函数，它就是设计用来从保存的模型输出（通常是一个包含了所有滴答后激活历史的张量，如 `post_activations_history`）中提取数据，并生成类似于论文 Figure 4 的可视化图表的。
+        *   代码层面，要进行此类分析，需要在 `ContinuousThoughtMachine` 的 `forward` 循环中记录每个内部滴答产生的 `z` 值 (或者直接记录 `post_acts_history` 的内容)。在代码库的 `continuous-thought-machines/tasks/image_classification/plotting.py` 文件中，有一个名为 `plot_neural_dynamics` 的函数，它就是设计用来从保存的模型输出（通常是一个包含了所有滴答后激活历史的张量，如 `post_activations_history`）中提取数据，并生成类似于论文 Figure 4 的可视化图表的。
         *   论文还通过 UMAP 将高维的神经元激活“轮廓”（profile，即一个神经元在多个刺激和多个时间点上的响应模式）投影到2D空间，并观察到在 CTM 思考过程中，这些神经元激活在特征空间中形成了传播的波状结构 (Figure 6)，这进一步暗示了 CTM 内部复杂的自组织动态。
 
 通过在 ImageNet 图像分类任务上的应用和深入分析，CTM 不仅证明了其处理复杂感知任务的能力，更重要的是，它揭示了将时间动态和神经同步这些受生物启发的机制整合到深度学习模型中所能带来的独特行为和潜在优势。CTM 在这个任务上的表现，为其“持续思考”的核心理念提供了有力的实验支撑。
@@ -328,9 +328,9 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
         *   `dropout_synapse`: **0.1** (突触模型中的 dropout 概率)。
         *   `positional_embedding_type`: **'none'** (如前所述，禁止使用位置嵌入)。
 
-    *   **课程学习 (Curriculum Approach) 与损失函数 (参考论文 Appendix D.3 "Maze curriculum" 和代码 `/app/work/continuous-thought-machines/utils/losses.py` 中的 `maze_loss` 函数)**:
+    *   **课程学习 (Curriculum Approach) 与损失函数 (参考论文 Appendix D.3 "Maze curriculum" 和代码 `continuous-thought-machines/utils/losses.py` 中的 `maze_loss` 函数)**:
         *   解决复杂的序列预测任务（如规划长路径）往往具有挑战性。为了帮助模型学习，论文提到在损失函数中引入了**课程学习 (curriculum learning)** 的元素。
-        *   这个思想在 `/app/work/continuous-thought-machines/utils/losses.py` 的 `maze_loss` 函数中得到了实现。与标准的 `image_classification_loss` 不同，`maze_loss` 在计算每个内部滴答的损失时，并不仅仅简单地比较整个100步预测路径与真实路径。
+        *   这个思想在 `continuous-thought-machines/utils/losses.py` 的 `maze_loss` 函数中得到了实现。与标准的 `image_classification_loss` 不同，`maze_loss` 在计算每个内部滴答的损失时，并不仅仅简单地比较整个100步预测路径与真实路径。
         *   其核心思想是：在训练的早期阶段，模型可能很难一次性正确预测出非常长的路径。因此，损失函数会更侧重于路径的初始部分。`maze_loss` 通过一个名为 `cirriculum_lookahead` 的参数（论文中默认为5）实现了一种“自动扩展课程”。
         *   具体来说（根据论文描述和对代码的推断），对于每个内部滴答 `t` 的预测路径，损失函数会首先检查该预测路径从第一步开始，连续正确预测到了第几步 (`correct_until_step`)。然后，该滴答的损失将主要基于从第一步到 `correct_until_step + cirriculum_lookahead` 步的预测准确性来计算。这意味着，如果模型已经正确预测了前10步，那么损失会鼓励它继续正确预测到第15步。
         *   这种动态调整损失计算范围的策略，鼓励模型首先掌握解决路径的初始部分，然后逐渐扩展到能够规划更长的路径。这有助于稳定训练过程，并引导模型逐步学习解决整个复杂序列预测问题。
@@ -365,12 +365,12 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
 
 *   **代码库中的相关实现**:
     *   **数据集处理**:
-        *   `/app/work/continuous-thought-machines/data/custom_datasets.py` 文件中定义了 `MazeImageFolder` 类。
+        *   `continuous-thought-machines/data/custom_datasets.py` 文件中定义了 `MazeImageFolder` 类。
         *   这个类继承自 `torchvision.datasets.ImageFolder`，专门用于加载迷宫图像及其对应的解决方案路径。
         *   其 `__init__` 方法中有一个重要参数 `maze_route_length` (代码中默认为10，但在论文实验中会根据任务需求设置为100)，它控制了从迷宫解决方案文件（通常是 `.txt` 或 `.csv` 文件，包含了到达目标点的动作序列）中加载的路径长度。
         *   `get_solution(self, x)` 方法负责读取并处理与给定迷宫图像 `x` 相对应的解决方案路径。
     *   **绘图与分析**:
-        *   `/app/work/continuous-thought-machines/tasks/mazes/plotting.py` 文件包含了一些用于可视化和分析迷宫任务结果的辅助函数。
+        *   `continuous-thought-machines/tasks/mazes/plotting.py` 文件包含了一些用于可视化和分析迷宫任务结果的辅助函数。
         *   例如，`find_center_of_mass(array_2d)` 函数可以用于计算注意力热图的质心，这有助于追踪和可视化模型注意力焦点的移动轨迹（如论文 Figure 8 中的彩色箭头所示）。
         *   `draw_path(x, route, valid_only=False, gt=False, cmap=None)` 函数则用于在迷宫图像上绘制模型预测的路径或真实路径，这对于直观理解模型的行为和判断其规划的正确性至关重要。
 
@@ -394,7 +394,7 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
         *   这种设计可能是因为排序任务的输入本身已经是一个结构化的序列，其全局信息对于排序至关重要，模型不需要像处理图像那样去动态关注局部特征。
     *   **序列化输出层**: CTM 的最终输出投影层被修改，以适应在每个内部滴答产生指向下一个排序元素的索引（或空白符）的概率分布。
     *   **代码关联**:
-        *   `/app/work/continuous-thought-machines/models/ctm_sort.py` 文件中定义了 `ContinuousThoughtMachineSORT` 类。这个类是为排序任务特别定制的 CTM 版本。
+        *   `continuous-thought-machines/models/ctm_sort.py` 文件中定义了 `ContinuousThoughtMachineSORT` 类。这个类是为排序任务特别定制的 CTM 版本。
         *   在其 `__init__` 方法中，与注意力相关的组件（如 `q_projector`, `kv_projector`, `attn`）可能不会被初始化，或者 `use_attention` 这样的参数会被设置为 `False`。
         *   其 `forward` 方法的逻辑会相应调整，以直接接收和处理输入序列，而不是通过注意力机制。
 
@@ -422,15 +422,15 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
 
 *   **代码库实现细节**:
     *   **数据集**:
-        *   `/app/work/continuous-thought-machines/data/custom_datasets.py` 中定义了 `SortDataset` 类。
+        *   `continuous-thought-machines/data/custom_datasets.py` 中定义了 `SortDataset` 类。
         *   其 `__init__(self, N)` 方法接收一个参数 `N`，代表要排序的数字的数量。
         *   `__getitem__` 方法会生成一个包含 `N` 个从随机分布（通常是标准正态分布）中抽取的数字的序列作为输入，以及这些数字排序后的版本作为目标输出。
     *   **CTM 变体**:
-        *   `/app/work/continuous-thought-machines/models/ctm_sort.py` 包含了 `ContinuousThoughtMachineSORT` 类。
+        *   `continuous-thought-machines/models/ctm_sort.py` 包含了 `ContinuousThoughtMachineSORT` 类。
         *   这个类继承自基础的 `ContinuousThoughtMachine`，但会重写或调整部分模块以适应排序任务的特定需求，例如可能不初始化或不使用与注意力相关的组件，并调整其 `forward` 方法以直接处理输入序列。
     *   **损失函数**:
         *   论文明确提到在此任务中使用 **CTC 损失**。
-        *   该损失函数在 `/app/work/continuous-thought-machines/utils/losses.py` 中由 `compute_ctc_loss(predictions, targets, blank_label=0)` 函数实现。
+        *   该损失函数在 `continuous-thought-machines/utils/losses.py` 中由 `compute_ctc_loss(predictions, targets, blank_label=0)` 函数实现。
         *   `compute_ctc_loss` 函数的参数通常包括：
             *   `predictions`: 模型的原始输出，形状通常为 `(num_internal_ticks, batch_size, num_classes)`，其中 `num_classes` 对于排序任务是 `N+1`（N个可能的排序索引 + 1个空白标签）。
             *   `targets`: 真实的排序后序列，形状通常为 `(batch_size, target_sequence_length)`。
@@ -438,7 +438,7 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
         *   函数内部会使用 PyTorch 的 `nn.CTCLoss` 来计算损失。
     *   **结果解码**:
         *   由于 CTC 损失的输出是每一步的概率分布，需要一个解码过程才能得到最终的排序序列。
-        *   `/app/work/continuous-thought-machines/tasks/sort/utils.py` 中的 `decode_predictions(predictions, blank_label=0, return_wait_times=False)` 函数负责此任务。
+        *   `continuous-thought-machines/tasks/sort/utils.py` 中的 `decode_predictions(predictions, blank_label=0, return_wait_times=False)` 函数负责此任务。
         *   它通常采用贪心解码（greedy decoding）策略，即在每个时间步选择概率最高的标签，然后移除重复标签和空白标签，从而得到最终的输出序列。
         *   该函数还可以选择性地返回每个非空白标签输出前的“等待时间”（即连续空白标签的数量）。
 
@@ -460,7 +460,7 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
         *   与排序任务中直接将原始数值输入 CTM 不同，在奇偶校验任务中，输入序列的 `1` 和 `-1` 首先被转换为**可学习的嵌入向量 (learnable embeddings)**。
         *   这些值嵌入会与**位置嵌入 (positional embeddings)** 相结合，为模型提供关于每个元素在序列中位置的信息。
         *   然后，这些组合后的嵌入向量将作为 CTM **注意力机制的键 (Keys) 和值 (Values)**。CTM 会通过其注意力机制来“观察”和处理这个输入序列。这表明，对于奇偶校验任务，模型需要动态地关注输入序列的不同部分来做出判断。
-        *   代码层面，`/app/work/continuous-thought-machines/models/modules.py` 文件中的 `ParityBackbone` 类负责处理这种输入。
+        *   代码层面，`continuous-thought-machines/models/modules.py` 文件中的 `ParityBackbone` 类负责处理这种输入。
             *   `ParityBackbone` 内部通常包含一个 `nn.Embedding` 层，用于将离散的输入值（例如，可以将 `-1` 映射为索引0，`1` 映射为索引1）转换为稠密的嵌入向量。
             *   它还会包含或生成位置编码（例如，可学习的参数 `nn.Parameter(...)` 或固定的正弦位置编码），并将其与值嵌入相加或拼接。
     *   **损失函数应用**:
@@ -490,14 +490,14 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
 
 *   **代码库实现细节**:
     *   **数据集**:
-        *   `/app/work/continuous-thought-machines/data/custom_datasets.py` 中定义了 `ParityDataset` 类。
+        *   `continuous-thought-machines/data/custom_datasets.py` 中定义了 `ParityDataset` 类。
         *   其 `__init__(self, sequence_length=64, length=100000)` 方法指定了输入序列的长度（默认为64）和数据集的总样本数。
         *   `__getitem__` 方法负责在每次被调用时生成一个随机的 `{-1, 1}` 序列作为输入，以及其对应的累积奇偶校验序列作为目标输出。
     *   **输入主干网络 (Input Backbone)**:
-        *   如前所述，`/app/work/continuous-thought-machines/models/modules.py` 中的 `ParityBackbone` 类用于处理奇偶校验任务的输入。
+        *   如前所述，`continuous-thought-machines/models/modules.py` 中的 `ParityBackbone` 类用于处理奇偶校验任务的输入。
         *   它将离散的输入值 (`-1`, `1`) 转换为嵌入向量，并结合位置编码，然后将这些特征提供给 CTM 的注意力机制。
     *   **任务相关脚本**:
-        *   `/app/work/continuous-thought-machines/tasks/parity/` 目录下包含了与奇偶校验任务相关的训练脚本、分析工具和实用函数。
+        *   `continuous-thought-machines/tasks/parity/` 目录下包含了与奇偶校验任务相关的训练脚本、分析工具和实用函数。
         *   例如，`tasks/parity/analysis/make_blog_gifs.py` 可能用于生成论文中展示的注意力动态或神经活动的可视化 GIF。
         *   `tasks/parity/utils.py` 中的 `prepare_model` 函数负责根据配置参数初始化 CTM 模型，而 `reshape_attention_weights` 函数可能用于处理和重塑注意力权重以便于分析和可视化。
 
@@ -542,7 +542,7 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
             *   当输入是索引嵌入、操作符嵌入或答案标记时，这些通常是预定义的或可学习的嵌入向量（例如，`QAMNISTOperatorEmbeddings` 和 `QAMNISTIndexEmbeddings` 在 `models/modules.py` 中定义）。
             *   与 MNIST 图像不同，这些非视觉的指令性输入**不通过卷积主干和注意力机制**。
             *   相反，它们被直接与 CTM 的当前后激活状态 `z` 进行拼接，然后一起送入突触模型。这种设计允许模型将指令信息直接、快速地整合到其内部的“思考状态”中，以指导后续的记忆检索或运算。
-        *   代码层面，这种区分处理在 `/app/work/continuous-thought-machines/models/ctm_qamnist.py` 中的 `ContinuousThoughtMachineQAMNIST` 类中实现。
+        *   代码层面，这种区分处理在 `continuous-thought-machines/models/ctm_qamnist.py` 中的 `ContinuousThoughtMachineQAMNIST` 类中实现。
             *   其 `get_kv_for_step` 方法会根据当前内部滴答所处的阶段（是数字观察阶段还是指令/回答阶段，这由 `determine_step_type` 方法判断）来决定是使用 MNIST 图像的特征作为 KV 对（对于数字观察阶段），还是不使用注意力/使用特殊的 KV（对于指令或回答阶段）。
             *   `determine_index_operator_step_type` 方法则进一步细化判断当前指令是索引还是操作符。
             *   `models/modules.py` 中的 `ThoughtSteps` 是一个辅助类，用于管理和追踪在 Q&A MNIST 任务中不同阶段（数字观察、问题指令、回答）的内部滴答计数和转换逻辑，确保模型在正确的时间以正确的方式处理正确的输入。
@@ -585,23 +585,23 @@ ImageNet-1K 图像分类任务是计算机视觉领域一个经典且极具挑�
 
 *   **代码库实现细节**:
     *   **数据集**:
-        *   `/app/work/continuous-thought-machines/data/custom_datasets.py` 中的 `QAMNISTDataset` 类负责生成 Q&A MNIST 任务的样本。
+        *   `continuous-thought-machines/data/custom_datasets.py` 中的 `QAMNISTDataset` 类负责生成 Q&A MNIST 任务的样本。
         *   它包装了一个标准的 MNIST 数据集。其 `__init__` 方法接收参数如 `num_images` (一个范围，定义了每个样本中观察的 MNIST 数字数量的下限和上限), `num_operations` (类似地定义了操作数量的范围), `num_repeats_per_input` (即 `𝑡𝑑`, `𝑡idx`, `𝑡op`，每个输入部分持续的内部滴答数) 等。
         *   核心的 `_get_target_and_question` 方法负责为每个样本随机生成一个包含 MNIST 图像索引、操作符序列以及最终正确答案的复杂问题结构。
     *   **CTM 变体**:
-        *   `/app/work/continuous-thought-machines/models/ctm_qamnist.py` 中的 `ContinuousThoughtMachineQAMNIST` 类是为 Q&A MNIST 任务定制的 CTM 版本。
+        *   `continuous-thought-machines/models/ctm_qamnist.py` 中的 `ContinuousThoughtMachineQAMNIST` 类是为 Q&A MNIST 任务定制的 CTM 版本。
         *   它继承自基础的 `ContinuousThoughtMachine`，并重写或添加了特定方法来处理该任务的复杂输入流，如：
             *   `determine_step_type(...)`: 判断当前内部滴答属于数字观察、问题指令还是回答阶段。
             *   `get_kv_for_step(...)`: 根据当前阶段类型，决定是使用 MNIST 图像的特征作为注意力机制的 KV 对（数字观察阶段），还是不使用注意力/使用特殊的 KV（指令/回答阶段，此时输入直接与 `z` 拼接）。
     *   **LSTM 基线变体**:
-        *   `/app/work/continuous-thought-machines/models/lstm_qamnist.py` 中的 `LSTMBaseline` 类是为 Q&A MNIST 任务定制的 LSTM 版本，它同样需要能够处理不同阶段的输入并管理内部状态。
-    *   **输入处理模块 (位于 `/app/work/continuous-thought-machines/models/modules.py`)**:
+        *   `continuous-thought-machines/models/lstm_qamnist.py` 中的 `LSTMBaseline` 类是为 Q&A MNIST 任务定制的 LSTM 版本，它同样需要能够处理不同阶段的输入并管理内部状态。
+    *   **输入处理模块 (位于 `continuous-thought-machines/models/modules.py`)**:
         *   `MNISTBackbone`: 一个简单的卷积网络，用于从 MNIST 图像中提取特征。
         *   `QAMNISTOperatorEmbeddings`: 为算术操作（如加法、减法）提供可学习的嵌入向量。
         *   `QAMNISTIndexEmbeddings`: 为指向先前观察到的 MNIST 数字的索引提供嵌入向量（论文中提到使用正弦嵌入）。
         *   `ThoughtSteps`: 一个重要的辅助类，用于精确管理和追踪在 Q&A MNIST 任务中不同输入阶段（数字观察、问题指令、回答）的内部滴答计数和它们之间的转换逻辑。这确保了模型在正确的时间以正确的方式处理每种类型的输入。
     *   **任务相关脚本**:
-        *   `/app/work/continuous-thought-machines/tasks/qamnist/` 目录下包含了与 Q&A MNIST 任务相关的训练脚本、分析脚本和工具函数。
+        *   `continuous-thought-machines/tasks/qamnist/` 目录下包含了与 Q&A MNIST 任务相关的训练脚本、分析脚本和工具函数。
         *   例如，`make_blog_gifs.py` 和 `make_blog_gifs_equation_animation.py` 用于生成论文中可能出现的、展示 CTM 逐步计算过程的可视化结果（后者甚至使用了 `manim` 库来制作公式动画，如论文 Figure 25 那样的效果）。
         *   `utils.py` 中通常包含 `get_dataset` (用于实例化 `QAMNISTDataset`) 和 `prepare_model` (用于根据配置初始化 `ContinuousThoughtMachineQAMNIST` 或 `LSTMBaseline`) 等辅助函数。
 
@@ -632,22 +632,22 @@ Q&A MNIST 任务有力地证明了 CTM 不仅仅能处理单一模态的简单�
 
     *   **输入处理 (Observation Processing)**:
         *   环境在每个时间步提供的观测值 (observation) 首先会通过一个特定于任务的**主干网络 (backbone)** 进行初步的特征提取和编码。
-        *   对于 **CartPole** 和 **Acrobot** 这类经典控制任务，其观测值通常是低维的连续向量。这些向量通过 `/app/work/continuous-thought-machines/models/modules.py` 中定义的 `ClassicControlBackbone` 进行处理。这个 backbone 通常由一系列全连接层 (Linear layers)、GLU (Gated Linear Unit) 激活函数和层归一化 (LayerNorm) 组成，旨在将原始观测映射到一个更适合 CTM 内部处理的特征空间。
-        *   对于 **MiniGrid Four Rooms** 这样的导航任务，其观测值是一个代表智能体局部视野的张量（例如 `7x7x3`，其中3个通道可能分别编码网格单元中的对象类型、颜色和状态，如门是开是关）。这些高维、结构化的观测通过 `/app/work/continuous-thought-machines/models/modules.py` 中定义的 `MiniGridBackbone` 处理。该主干网络通常会首先将离散的对象ID、颜色ID、状态ID以及视野内的相对位置信息通过嵌入层 (Embedding layers) 转换为向量表示，然后可能再通过线性层和GLU等进行进一步处理。
+        *   对于 **CartPole** 和 **Acrobot** 这类经典控制任务，其观测值通常是低维的连续向量。这些向量通过 `continuous-thought-machines/models/modules.py` 中定义的 `ClassicControlBackbone` 进行处理。这个 backbone 通常由一系列全连接层 (Linear layers)、GLU (Gated Linear Unit) 激活函数和层归一化 (LayerNorm) 组成，旨在将原始观测映射到一个更适合 CTM 内部处理的特征空间。
+        *   对于 **MiniGrid Four Rooms** 这样的导航任务，其观测值是一个代表智能体局部视野的张量（例如 `7x7x3`，其中3个通道可能分别编码网格单元中的对象类型、颜色和状态，如门是开是关）。这些高维、结构化的观测通过 `continuous-thought-machines/models/modules.py` 中定义的 `MiniGridBackbone` 处理。该主干网络通常会首先将离散的对象ID、颜色ID、状态ID以及视野内的相对位置信息通过嵌入层 (Embedding layers) 转换为向量表示，然后可能再通过线性层和GLU等进行进一步处理。
         *   一个关键点是，在 RL 任务的设置中，CTM **通常不使用其内部的注意力机制**来处理这些经过主干网络编码后的观测特征（这与图像分类或奇偶校验等任务不同）。相反，这些编码后的特征被**直接连接 (concatenated)** 到 CTM 的当前后激活状态 `z`，然后一起送入突触模型。
 
     *   **CTM 核心与状态的连续维持 (Continuous State Maintenance)**:
         *   CTM 的核心部分——包括突触模型 (Synapse Model)、神经元级模型 (NLMs) 和神经同步计算 (Neural Synchronization Computation)——依然按照其标准方式运作，处理由编码后观测和前一时刻后激活状态拼接而成的输入。
         *   在 RL 任务中，一个至关重要的方面是**状态的连续维持**。论文明确提到 "we continuously maintain the neuron dynamics across these internal ticks over successive environment steps"。这意味着 CTM 的内部状态（例如 `pre_acts_history` 和 `post_acts_history` 或 `activated_state_trace`）在环境的**不同时间步 (environment steps) 之间是持续传递和更新的**，而不是在每个新的环境时间步开始时被重置。
         *   这种连续的状态维持使得 CTM 能够整合跨越多个环境时间步的历史观测信息，从而形成对环境动态和潜在状态的连贯理解，这对于在 POMDP 环境中做出有效决策至关重要。
-        *   代码层面，`/app/work/continuous-thought-machines/models/ctm_rl.py` 中定义的 `ContinuousThoughtMachineRL` 类就是专为此类 RL 任务设计的 CTM 变体。它可能包含特定的逻辑来正确初始化这些需要跨 episódio 甚至跨 mini-batch（在 PPO 等算法的 rollout 阶段）传递的连续状态轨迹。
+        *   代码层面，`continuous-thought-machines/models/ctm_rl.py` 中定义的 `ContinuousThoughtMachineRL` 类就是专为此类 RL 任务设计的 CTM 变体。它可能包含特定的逻辑来正确初始化这些需要跨 episódio 甚至跨 mini-batch（在 PPO 等算法的 rollout 阶段）传递的连续状态轨迹。
 
     *   **动作输出与价值估计 (Actor-Critic Outputs)**:
         *   在 CTM 内部经过一定数量的“思考步骤”（内部滴答）处理后，会计算出神经同步向量。
         *   这个同步向量随后被送入两个独立的、通常是小型多层感知器 (MLP) 构成的**头部网络 (head networks)**：
             1.  **Actor Head**: 这个头部网络负责输出一个动作概率分布 (action probability distribution)，智能体将根据这个分布来选择在当前环境下要执行的下一个动作。
             2.  **Critic Head**: 这个头部网络负责输出一个价值估计 (value estimate)，用于评估当前状态的好坏（或者说，从当前状态出发能获得的预期累积奖励）。在像 PPO (Proximal Policy Optimization) 这样的 Actor-Critic 强化学习算法中，这个价值估计对于计算优势函数 (advantage function) 和指导策略更新至关重要。
-        *   在代码实现中，例如在 `/app/work/continuous-thought-machines/tasks/rl/train.py` 文件中的 `Agent` 类，其 `forward` 方法 (或类似的 `get_action_and_value` 方法) 会首先调用 CTM (或 LSTM) 模型处理观测并获得其输出（即同步向量或隐状态），然后将这个输出分别传递给 `self.actor` 和 `self.critic` 网络，以得到最终的动作分布和价值估计。
+        *   在代码实现中，例如在 `continuous-thought-machines/tasks/rl/train.py` 文件中的 `Agent` 类，其 `forward` 方法 (或类似的 `get_action_and_value` 方法) 会首先调用 CTM (或 LSTM) 模型处理观测并获得其输出（即同步向量或隐状态），然后将这个输出分别传递给 `self.actor` 和 `self.critic` 网络，以得到最终的动作分布和价值估计。
 
     *   **滑动窗口同步计算 (Sliding Window Synchronization)**:
         *   与之前讨论的一些任务（如图像分类）中，神经同步计算可能会考虑从第一个内部滴答开始的整个后激活历史不同，在 RL 任务中，同步计算通常是在一个**固定大小的滑动窗口 (sliding window)** 上进行的。这个窗口的长度通常等于 CTM 的 `memory_length` (M) 参数。
@@ -669,20 +669,20 @@ Q&A MNIST 任务有力地证明了 CTM 不仅仅能处理单一模态的简单�
 
 *   **代码库实现细节**:
     *   **CTM RL 变体**:
-        *   `/app/work/continuous-thought-machines/models/ctm_rl.py` 中定义了 `ContinuousThoughtMachineRL` 类。
+        *   `continuous-thought-machines/models/ctm_rl.py` 中定义了 `ContinuousThoughtMachineRL` 类。
         *   此类继承自基础的 `ContinuousThoughtMachine`，但针对 RL 任务的需求进行了一些调整。例如，其 `__init__` 方法可能不包含与注意力相关的参数（如 `heads`, `n_synch_action`），因为在当前的 RL 设置中不使用注意力。它会特别关注内部状态（如 `pre_acts_history` 和 `activated_state_trace`）的初始化和跨环境时间步的正确传递。
     *   **LSTM RL 变体**:
-        *   `/app/work/continuous-thought-machines/models/lstm_rl.py` 提供了用于 RL 任务的 LSTM 基线模型 (`LSTMBaseline`)。
+        *   `continuous-thought-machines/models/lstm_rl.py` 提供了用于 RL 任务的 LSTM 基线模型 (`LSTMBaseline`)。
     *   **RL 特定的主干网络 (Backbones for RL)**:
-        *   位于 `/app/work/continuous-thought-machines/models/modules.py`：
+        *   位于 `continuous-thought-machines/models/modules.py`：
             *   `ClassicControlBackbone`: 用于处理 CartPole 和 Acrobot 等经典控制任务的低维连续观测。
             *   `MiniGridBackbone`: 用于处理 MiniGrid 环境的网格状局部视野观测，通常包含嵌入层来处理离散的对象、颜色、状态ID以及位置信息。
     *   **环境包装器 (Environment Wrappers)**:
-        *   `/app/work/continuous-thought-machines/tasks/rl/envs.py` 中定义了 `MaskVelocityWrapper`。
+        *   `continuous-thought-machines/tasks/rl/envs.py` 中定义了 `MaskVelocityWrapper`。
         *   这是一个 Gym (或 Gymnasium) 环境包装器，其主要作用是从 CartPole 和 Acrobot 环境的原始观测中移除（掩盖）速度信息，从而将它们转换为 POMDPs，以测试模型的记忆和状态推断能力。
         *   其 `_apply_velocity_mask_cartpole` 和 `_apply_velocity_mask_acrobot` 方法分别实现了针对这两个环境的速度掩码逻辑。
     *   **训练逻辑与 Agent 类**:
-        *   `/app/work/continuous-thought-machines/tasks/rl/train.py` 是 RL 任务的核心训练脚本。
+        *   `continuous-thought-machines/tasks/rl/train.py` 是 RL 任务的核心训练脚本。
         *   其中定义了 `Agent` 类，它封装了底层的 CTM 或 LSTM 模型，并集成了 Actor 和 Critic 头部网络。
         *   `Agent` 类负责处理与多个并行环境的交互，获取动作，管理模型的内部状态（对于 CTM，这通常是一个包含 `pre_acts_history` 和 `activated_state_trace` 的元组或字典，通过 `get_initial_ctm_state` 初始化；对于 LSTM，则是其隐状态 `(h, c)`，通过 `get_initial_lstm_state` 初始化）。
         *   `get_action_and_value` 方法是 `Agent` 的核心，它接收当前的环境观测和上一时刻的模型内部状态，通过模型前向传播得到动作分布和价值估计，并返回新的模型内部状态。
@@ -876,10 +876,10 @@ CTM 的核心思想在于将**时间动态**和**神经同步**置于其计算�
 
 以下是 Continuous Thought Machine (CTM) 项目代码库中一些核心 Python 类和函数的索引，以及它们的简要功能说明。这些模块共同构成了 CTM 的基础架构和针对不同任务的特定实现。
 
-*   **核心 CTM 架构 (`/app/work/continuous-thought-machines/models/ctm.py`)**:
+*   **核心 CTM 架构 (`continuous-thought-machines/models/ctm.py`)**:
     *   `ContinuousThoughtMachine`: CTM 的主要实现类。封装了整个模型的核心逻辑，包括内部滴答循环、注意力机制、突触模型调用、NLMs 应用以及神经同步计算和输出生成。
 
-*   **核心机制实现 (`/app/work/continuous-thought-machines/models/modules.py`)**:
+*   **核心机制实现 (`continuous-thought-machines/models/modules.py`)**:
     *   `SuperLinear`: 实现神经元级模型 (NLMs) 的关键模块。允许对输入张量的特定维度（神经元维度）应用独立的、参数化的线性变换或小型 MLP。
     *   `SynapseUNET`: U-Net 风格的突触模型实现。用于处理注意力输出和上一时刻的后激活状态，以产生新的前激活状态，模拟神经元间的复杂交互。
 
@@ -887,18 +887,18 @@ CTM 的核心思想在于将**时间动态**和**神经同步**置于其计算�
     *   `compute_synchronisation` (方法): 负责根据后激活历史计算神经同步表征，包括处理可学习的时间衰减因子和神经元对的选择。
 
 *   **特定任务的 CTM 变体**:
-    *   `ContinuousThoughtMachineSORT` (`/app/work/continuous-thought-machines/models/ctm_sort.py`): 为排序任务定制的 CTM 版本。通常不使用注意力机制，直接处理输入序列，并配置为使用 CTC 损失进行序列输出。
-    *   `ContinuousThoughtMachineQAMNIST` (`/app/work/continuous-thought-machines/models/ctm_qamnist.py`): 为 Q&A MNIST 任务定制的 CTM 版本。包含处理不同输入类型（图像、指令嵌入）的特定逻辑，如 `determine_step_type` 和 `get_kv_for_step` 方法。
-    *   `ContinuousThoughtMachineRL` (`/app/work/continuous-thought-machines/models/ctm_rl.py`): 为强化学习任务设计的 CTM 版本。关注内部状态的连续维持，通常不使用注意力，并可能采用滑动窗口进行同步计算。
+    *   `ContinuousThoughtMachineSORT` (`continuous-thought-machines/models/ctm_sort.py`): 为排序任务定制的 CTM 版本。通常不使用注意力机制，直接处理输入序列，并配置为使用 CTC 损失进行序列输出。
+    *   `ContinuousThoughtMachineQAMNIST` (`continuous-thought-machines/models/ctm_qamnist.py`): 为 Q&A MNIST 任务定制的 CTM 版本。包含处理不同输入类型（图像、指令嵌入）的特定逻辑，如 `determine_step_type` 和 `get_kv_for_step` 方法。
+    *   `ContinuousThoughtMachineRL` (`continuous-thought-machines/models/ctm_rl.py`): 为强化学习任务设计的 CTM 版本。关注内部状态的连续维持，通常不使用注意力，并可能采用滑动窗口进行同步计算。
 
-*   **数据集类 (`/app/work/continuous-thought-machines/data/custom_datasets.py`)**:
+*   **数据集类 (`continuous-thought-machines/data/custom_datasets.py`)**:
     *   `ImageNet`: 用于加载 ImageNet 数据集的封装。
     *   `MazeImageFolder`: 用于加载 2D 迷宫图像及其解决方案路径，继承自 `torchvision.datasets.ImageFolder`。
     *   `SortDataset`: 生成用于排序任务的随机数字序列及其排序后的目标。
     *   `ParityDataset`: 生成用于奇偶校验任务的二进制序列及其累积奇偶校验目标。
     *   `QAMNISTDataset`: 生成 Q&A MNIST 任务所需的复杂输入序列（MNIST 图像、索引、操作符）和目标答案。
 
-*   **任务特定的输入处理/主干网络 (`/app/work/continuous-thought-machines/models/modules.py`)**:
+*   **任务特定的输入处理/主干网络 (`continuous-thought-machines/models/modules.py`)**:
     *   `ParityBackbone`: 为奇偶校验任务的输入（-1/1序列）提供值嵌入和位置嵌入。
     *   `MNISTBackbone`: 用于从 Q&A MNIST 任务中的 MNIST 图像提取特征的简单卷积网络。
     *   `QAMNISTOperatorEmbeddings`: 为 Q&A MNIST 任务中的算术操作符（如加、减）提供可学习的嵌入。
@@ -907,19 +907,19 @@ CTM 的核心思想在于将**时间动态**和**神经同步**置于其计算�
     *   `MiniGridBackbone`: 用于处理强化学习 MiniGrid 导航任务的网格状局部视野观测，包含对对象、颜色、状态和位置的嵌入。
 
 *   **辅助模块与函数**:
-    *   `ThoughtSteps` (`/app/work/continuous-thought-machines/models/modules.py`): 在 Q&A MNIST 任务中，用于管理和追踪不同输入阶段（数字观察、问题指令、回答）的内部滴答计数和转换逻辑的辅助类。
-    *   **损失函数** (`/app/work/continuous-thought-machines/utils/losses.py`):
+    *   `ThoughtSteps` (`continuous-thought-machines/models/modules.py`): 在 Q&A MNIST 任务中，用于管理和追踪不同输入阶段（数字观察、问题指令、回答）的内部滴答计数和转换逻辑的辅助类。
+    *   **损失函数** (`continuous-thought-machines/utils/losses.py`):
         *   `image_classification_loss`: CTM 用于标准图像分类任务的损失函数，结合最小损失点和最大确定性点。
         *   `maze_loss`: 用于 2D 迷宫任务的损失函数，包含课程学习机制。
         *   `compute_ctc_loss`: 实现连接主义时间分类 (CTC) 损失，用于排序等序列输出任务。
-    *   **位置编码模块** (`/app/work/continuous-thought-machines/models/modules.py`):
+    *   **位置编码模块** (`continuous-thought-machines/models/modules.py`):
         *   `LearnableFourierPositionalEncoding`, `MultiLearnableFourierPositionalEncoding`, `CustomRotationalEmbedding`, `CustomRotationalEmbedding1D`: 提供了多种可选的位置编码方案，尽管在某些 CTM 任务中（如 ImageNet 分类、2D 迷宫）明确禁用了位置嵌入。
-    *   **ResNet 实现** (`/app/work/continuous-thought-machines/models/resnet.py`): 提供了 CTM 使用的 ResNet backbone 的具体实现。
+    *   **ResNet 实现** (`continuous-thought-machines/models/resnet.py`): 提供了 CTM 使用的 ResNet backbone 的具体实现。
     *   **任务工具与分析脚本**: 各 `tasks/<task_name>/` 目录下通常包含 `utils.py` (用于模型准备、数据加载等)、`plotting.py` (用于结果可视化) 以及可能的分析脚本 (如 `analysis/make_blog_gifs.py`)。
 
 ### B. 重要超参数参考
 
-以下是从 `/app/work/analysis_background.md` 中针对不同任务分析时提取的关键超参数配置。这些参数共同定义了 CTM 在各个实验中的具体形态。请注意，这并非详尽无遗的列表，更详细的配置请参考原论文的附录。
+以下是从 `analysis_background.md` 中针对不同任务分析时提取的关键超参数配置。这些参数共同定义了 CTM 在各个实验中的具体形态。请注意，这并非详尽无遗的列表，更详细的配置请参考原论文的附录。
 
 **1. ImageNet 图像分类 (Appendix C.1)**
 *   `iterations` (T): 50
