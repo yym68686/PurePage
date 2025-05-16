@@ -1009,4 +1009,4 @@ CTM 的核心思想在于将**时间动态**和**神经同步**置于其计算�
     *   `n_synch_out` (Jout for dense): 32
 *   **Common for RL**: Synapse model is a two-layer feedforward network (linear, GLU, LayerNorm per layer). PPO hyperparameters are detailed in Table 8 of the appendix.
 
-这个附录旨在为希望深入研究 CTM 代码或复现其实험的读者提供一个快速参考。更详尽的信息和参数配置应参考原始论文及其代码库。
+这个附录旨在为希望深入研究 CTM 代码或复现其实验的读者提供一个快速参考。更详尽的信息和参数配置应参考原始论文及其代码库。
