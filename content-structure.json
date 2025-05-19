@@ -64,6 +64,11 @@
           "name": "ctm.md",
           "type": "file",
           "path": "ai/ctm.md"
+        },
+        {
+          "name": "workflow_use.md",
+          "type": "file",
+          "path": "ai/workflow_use.md"
         }
       ]
     },
