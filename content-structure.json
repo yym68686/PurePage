@@ -66,6 +66,11 @@
           "path": "ai/ctm.md"
         },
         {
+          "name": "nano-vllm.md",
+          "type": "file",
+          "path": "ai/nano-vllm.md"
+        },
+        {
           "name": "workflow_use.md",
           "type": "file",
           "path": "ai/workflow_use.md"

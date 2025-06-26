@@ -525,6 +525,115 @@ pkill -9 python
 
 ## tmux
 
+写入配置
+
+```bash
+cat << 'EOF' > ~/.tmux.conf
+# --- 基本设置 ---
+# 修改前缀键为 Ctrl + a (C-a)
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# 解决Ctrl+a切换程序的问题 (按两次C-a发送C-a给程序)
+# bind-key C-a last-window
+
+# 开启鼠标支持 (tmux 2.1+)
+set -g mouse on
+
+# 窗口和窗格的索引从 1 开始
+set -g base-index 1
+setw -g pane-base-index 1
+set-option -g renumber-windows on # 关闭窗口后重新编号
+
+# 增加历史记录行数
+set -g history-limit 1000000
+
+# 允许更快的命令序列
+set -s escape-time 0
+
+# 终端类型和颜色
+set -g default-terminal "screen-256color"
+# 如果你的终端支持真彩色，可以尝试下面两行 (可能需要终端本身也配置正确)
+# set -g default-terminal "tmux-256color"
+# set-option -sa terminal-overrides ",xterm*:Tc"
+
+# --- 快捷键绑定 ---
+# 使用r键重新加载配置文件，并显示提示信息
+bind r source-file ~/.tmux.conf \; display "Reloaded tmux.conf!"
+
+# 更直观的窗格分割键
+bind | split-window -h -c "#{pane_current_path}" # 水平分割，继承当前路径
+bind - split-window -v -c "#{pane_current_path}" # 垂直分割，继承当前路径
+unbind '"' # 解绑默认的垂直分割键
+unbind %   # 解绑默认的水平分割键
+
+# 窗格同步输入 (按 Prefix S 切换)
+bind S setw synchronize-panes
+
+# --- 外观与状态栏 ---
+# 状态栏设置
+set -g status-interval 1                  # 状态栏刷新间隔 (秒)
+set -g status-justify left                # 状态栏内容左对齐
+set -g status-position top                # 状态栏显示在顶部 (也可以是bottom)
+
+set -g status-bg colour235                # 状态栏背景色 (深灰)
+set -g status-fg colour250                # 状态栏前景色 (浅灰)
+
+set -g status-left-length 60
+set -g status-left "#[fg=green]Session: #S #[fg=yellow]Win: #I #[fg=cyan]Pane: #P "
+
+set -g status-right-length 60
+set -g status-right "#[fg=blue]%Y-%m-%d %H:%M #[fg=magenta]%a"
+
+# 当前窗口状态栏样式
+setw -g window-status-current-style fg=black,bg=green # 当前窗口标签前景色/背景色
+setw -g window-status-current-format " #I:#W#F "    # 当前窗口标签格式 (索引:名称 标记)
+
+# 非当前窗口状态栏样式
+setw -g window-status-style fg=colour245,bg=colour236   # 其他窗口标签前景色/背景色
+setw -g window-status-format " #I:#W#F "
+
+# 窗格边框
+set -g pane-border-style fg=colour238        # 非活动窗格边框颜色
+set -g pane-active-border-style fg=green     # 活动窗格边框颜色
+
+# 消息栏 (例如按键提示，"Reloaded!"等)
+set -g message-style fg=black,bg=yellow     # 消息前景色/背景色
+set -g message-command-style fg=black,bg=yellow # 命令模式消息前景色/背景色
+EOF
+```
+
+1. **进入目标窗格。**
+
+2. **按下你的 Tmux 前缀键 (例如 `Ctrl+b` 或 `Ctrl+a`)，然后输入 `:` 进入 Tmux 命令模式。**
+
+3. **输入以下命令并回车：**
+
+先捕获到 buffer，再保存 buffer：
+
+```bash
+capture-pane -S - -E - ; save-buffer ~/tmux_output.txt
+```
+
+使用 `pipe-pane` (实时或一次性输出)
+
+`pipe-pane` 命令可以将窗格的输出实时地管道连接到一个外部命令，或者在执行时将当前内容和历史记录发送过去。
+
+1. **将当前窗格所有内容 (包括历史) 发送到文件 (一次性)：**
+
+按下 Tmux 前缀键，然后输入 `:` 进入命令模式。
+
+输入：
+
+```
+pipe-pane 'cat > ~/tmux_pipe_output.txt'
+```
+
+​    然后回车。这会打开一个管道，将当前窗格的**所有内容 (包括回滚缓冲区)** 发送给 `cat` 命令，`cat` 再将其重定向到文件。
+
+  \*  **关闭管道：** 再次执行 `pipe-pane` (不带参数) 或者关闭该窗格，或者 `break-pane`。更简单的方法是，这个一次性操作完成后，管道会自动关闭（因为 `cat` 接收完所有内容后会退出）。
+
 tmux -u 显示中文
 
 * `Ctrl+b %`：划分左右两个窗格。
