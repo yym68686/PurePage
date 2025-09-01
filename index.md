@@ -12,6 +12,7 @@
 
 ## 文章列表
 
+- [[开源] Architext: 定义上下文工程新范式——像架构师一样思考你的 Prompt](./#post/architext.md) 2025-09-01
 - [ViT 系列解读](./#post/vit.md) 2024-04-09
 - [BitNet: Scaling 1-bit Transformers for Large Language Models 论文分享](./#post/bitnet.md) 2024-04-08
 - [Language Model Beats Diffusion -- Tokenizer is Key to Visual Generation 论文分享](./#post/magvitv2.md) 2024-01-24

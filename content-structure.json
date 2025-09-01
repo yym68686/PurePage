@@ -9,6 +9,11 @@
       "path": "post",
       "children": [
         {
+          "name": "architext.md",
+          "type": "file",
+          "path": "post/architext.md"
+        },
+        {
           "name": "bitnet.md",
           "type": "file",
           "path": "post/bitnet.md"
